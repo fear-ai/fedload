@@ -1,0 +1,606 @@
+{
+  "people": [
+    {
+      "name": "Jerome H. Powell",
+      "position": "Governor",
+      "title": "Chair",
+      "committees": ["FOMC", "Board of Governors"],
+      "roles": ["Chair of the Federal Reserve", "Chair of the FOMC"],
+      "organization": "Federal Reserve Board of Governors",
+      "since": "2018",
+      "term_expires": "2028",
+      "governor_since": "2012",
+      "bio_url": "https://www.federalreserve.gov/aboutthefed/bios/board/powell.htm",
+      "aliases": ["Powell", "Chair Powell", "Jerome Powell"],
+      "related_topics": ["monetary policy", "banking supervision", "financial stability"]
+    },
+    {
+      "name": "Philip N. Jefferson",
+      "position": "Governor",
+      "title": "Vice Chair",
+      "committees": ["FOMC", "Board of Governors"],
+      "roles": ["Vice Chair of the Federal Reserve", "FOMC Voting Member"],
+      "organization": "Federal Reserve Board of Governors",
+      "since": "2022",
+      "vice_chair_since": "2023",
+      "term_expires": "2036",
+      "bio_url": "https://www.federalreserve.gov/aboutthefed/bios/board/jefferson.htm",
+      "aliases": ["Jefferson", "Vice Chair Jefferson"],
+      "related_topics": ["monetary policy", "economic research", "economic inequality"]
+    },
+    {
+      "name": "Michael S. Barr",
+      "position": "Governor",
+      "title": "Vice Chair for Supervision",
+      "committees": ["FOMC", "Board of Governors", "Financial Stability Board"],
+      "roles": ["Vice Chair for Supervision", "FOMC Voting Member", "Financial Stability Board Member"],
+      "organization": "Federal Reserve Board of Governors",
+      "since": "2022",
+      "term_expires": "2032",
+      "bio_url": "https://www.federalreserve.gov/aboutthefed/bios/board/barr.htm",
+      "aliases": ["Barr", "Vice Chair Barr"],
+      "related_topics": ["banking supervision", "regulation", "financial stability", "systemic risk"]
+    },
+    {
+      "name": "Michelle W. Bowman",
+      "position": "Governor",
+      "title": "Governor",
+      "committees": ["FOMC", "Board of Governors"],
+      "roles": ["Community Bank Representative", "FOMC Voting Member"],
+      "organization": "Federal Reserve Board of Governors",
+      "since": "2018",
+      "term_expires": "2034",
+      "bio_url": "https://www.federalreserve.gov/aboutthefed/bios/board/bowman.htm",
+      "aliases": ["Bowman", "Governor Bowman"],
+      "related_topics": ["community banking", "supervision and regulation", "monetary policy"]
+    },
+    {
+      "name": "Lisa D. Cook",
+      "position": "Governor",
+      "title": "Governor",
+      "committees": ["FOMC", "Board of Governors"],
+      "roles": ["FOMC Voting Member"],
+      "organization": "Federal Reserve Board of Governors",
+      "since": "2022",
+      "term_expires": "2024",
+      "bio_url": "https://www.federalreserve.gov/aboutthefed/bios/board/cook.htm",
+      "aliases": ["Cook", "Governor Cook"],
+      "related_topics": ["monetary policy", "economic disparities", "innovation economics"]
+    },
+    {
+      "name": "Christopher J. Waller",
+      "position": "Governor",
+      "title": "Governor",
+      "committees": ["FOMC", "Board of Governors"],
+      "roles": ["FOMC Voting Member"],
+      "organization": "Federal Reserve Board of Governors",
+      "since": "2020",
+      "term_expires": "2030",
+      "bio_url": "https://www.federalreserve.gov/aboutthefed/bios/board/waller.htm",
+      "aliases": ["Waller", "Governor Waller"],
+      "related_topics": ["monetary policy", "economic research", "labor economics"]
+    },
+    {
+      "name": "Adriana D. Kugler",
+      "position": "Governor",
+      "title": "Governor",
+      "committees": ["FOMC", "Board of Governors"],
+      "roles": ["FOMC Voting Member"],
+      "organization": "Federal Reserve Board of Governors",
+      "since": "2023",
+      "term_expires": "2026",
+      "bio_url": "https://www.federalreserve.gov/aboutthefed/bios/board/kugler.htm",
+      "aliases": ["Kugler", "Governor Kugler"],
+      "related_topics": ["labor economics", "monetary policy", "international economics"]
+    },
+    {
+      "name": "John C. Williams",
+      "position": "Reserve Bank President",
+      "title": "President",
+      "committees": ["FOMC"],
+      "roles": ["FOMC Permanent Voting Member", "Vice Chair of the FOMC"],
+      "organization": "Federal Reserve Bank of New York",
+      "region": "Second District",
+      "since": "2018",
+      "voting_status": "Permanent FOMC voter",
+      "district": "Second District",
+      "previous_position": "President, Federal Reserve Bank of San Francisco (2011-2018)",
+      "bio_url": "https://www.newyorkfed.org/aboutthefed/orgchart/williams",
+      "aliases": ["Williams", "President Williams"],
+      "related_topics": ["monetary policy", "financial stability", "interest rate markets"]
+    },
+    {
+      "name": "Susan M. Collins",
+      "position": "Reserve Bank President",
+      "title": "President",
+      "committees": ["FOMC"],
+      "roles": ["FOMC Alternate Member", "FOMC Voting Member (rotating)"],
+      "organization": "Federal Reserve Bank of Boston",
+      "region": "First District",
+      "since": "2022",
+      "voting_status": "FOMC voter 2022, 2025",
+      "district": "First District",
+      "bio_url": "https://www.bostonfed.org/people/bank/susan-m-collins.aspx",
+      "aliases": ["Collins", "President Collins"],
+      "related_topics": ["monetary policy", "economic research", "international development"]
+    },
+    {
+      "name": "Patrick T. Harker",
+      "position": "Reserve Bank President",
+      "title": "President",
+      "committees": ["FOMC"],
+      "roles": ["FOMC Alternate Member", "FOMC Voting Member (rotating)"],
+      "organization": "Federal Reserve Bank of Philadelphia",
+      "region": "Third District",
+      "since": "2015",
+      "voting_status": "FOMC voter 2023, 2026",
+      "district": "Third District",
+      "bio_url": "https://www.philadelphiafed.org/our-people/patrick-t-harker",
+      "aliases": ["Harker", "President Harker"],
+      "related_topics": ["monetary policy", "education and workforce development", "regional economics"]
+    },
+    {
+      "name": "Alberto G. Musalem",
+      "position": "Reserve Bank President",
+      "title": "President",
+      "committees": ["FOMC"],
+      "roles": ["FOMC Alternate Member", "FOMC Voting Member (rotating)"],
+      "organization": "Federal Reserve Bank of St. Louis",
+      "region": "Eighth District",
+      "since": "2023",
+      "voting_status": "FOMC voter 2025",
+      "district": "Eighth District",
+      "bio_url": "https://www.stlouisfed.org/about-us/leadership-governance",
+      "aliases": ["Musalem", "President Musalem"],
+      "related_topics": ["monetary policy", "economic research", "financial markets"]
+    },
+    {
+      "name": "Austan D. Goolsbee",
+      "position": "Reserve Bank President",
+      "title": "President",
+      "committees": ["FOMC"],
+      "roles": ["FOMC Alternate Member", "FOMC Voting Member (rotating)"],
+      "organization": "Federal Reserve Bank of Chicago",
+      "region": "Seventh District",
+      "since": "2023",
+      "voting_status": "FOMC voter 2023, 2026",
+      "district": "Seventh District",
+      "previous_position": "Chairman, Council of Economic Advisers (2010-2011)",
+      "bio_url": "https://www.chicagofed.org/people/g/goolsbee-austan",
+      "aliases": ["Goolsbee", "President Goolsbee"],
+      "related_topics": ["monetary policy", "economic research", "fiscal policy"]
+    },
+    {
+      "name": "Raphael W. Bostic",
+      "position": "Reserve Bank President",
+      "title": "President",
+      "committees": ["FOMC"],
+      "roles": ["FOMC Alternate Member", "FOMC Voting Member (rotating)"],
+      "organization": "Federal Reserve Bank of Atlanta",
+      "region": "Sixth District",
+      "since": "2017",
+      "voting_status": "FOMC voter 2024, 2027",
+      "district": "Sixth District",
+      "bio_url": "https://www.atlantafed.org/about/atlantafed/officers/raphael-bostic",
+      "aliases": ["Bostic", "President Bostic"],
+      "related_topics": ["monetary policy", "economic mobility", "housing finance"]
+    },
+    {
+      "name": "Thomas I. Barkin",
+      "position": "Reserve Bank President",
+      "title": "President",
+      "committees": ["FOMC"],
+      "roles": ["FOMC Alternate Member", "FOMC Voting Member (rotating)"],
+      "organization": "Federal Reserve Bank of Richmond",
+      "region": "Fifth District",
+      "since": "2018",
+      "voting_status": "FOMC voter 2024, 2027",
+      "district": "Fifth District",
+      "bio_url": "https://www.richmondfed.org/about_us/who_we_are/tom_barkin",
+      "aliases": ["Barkin", "President Barkin"],
+      "related_topics": ["monetary policy", "regional economics", "rural development"]
+    },
+    {
+      "name": "Beth Hammack",
+      "position": "Reserve Bank President",
+      "title": "President",
+      "committees": ["FOMC"],
+      "roles": ["FOMC Alternate Member", "FOMC Voting Member (rotating)"],
+      "organization": "Federal Reserve Bank of Cleveland",
+      "region": "Fourth District",
+      "since": "2023",
+      "voting_status": "FOMC voter 2024, 2027",
+      "district": "Fourth District",
+      "previous_position": "Global Treasurer, Goldman Sachs",
+      "bio_url": "https://www.clevelandfed.org/people/hammack-beth",
+      "aliases": ["Hammack", "President Hammack"],
+      "related_topics": ["monetary policy", "financial markets", "treasury operations"]
+    },
+    {
+      "name": "Jeffrey Schmid",
+      "position": "Reserve Bank President",
+      "title": "President",
+      "committees": ["FOMC"],
+      "roles": ["FOMC Alternate Member", "FOMC Voting Member (rotating)"],
+      "organization": "Federal Reserve Bank of Kansas City",
+      "region": "Tenth District",
+      "since": "2023",
+      "voting_status": "FOMC voter 2025",
+      "district": "Tenth District",
+      "bio_url": "https://www.kansascityfed.org/about-us/leadership/jeffrey-r-schmid/",
+      "aliases": ["Schmid", "President Schmid"],
+      "related_topics": ["monetary policy", "banking supervision", "agricultural economics"]
+    },
+    {
+      "name": "Lorie K. Logan",
+      "position": "Reserve Bank President",
+      "title": "President",
+      "committees": ["FOMC"],
+      "roles": ["FOMC Alternate Member", "FOMC Voting Member (rotating)"],
+      "organization": "Federal Reserve Bank of Dallas",
+      "region": "Eleventh District",
+      "since": "2022",
+      "voting_status": "FOMC voter 2023, 2026",
+      "district": "Eleventh District",
+      "previous_position": "EVP, Federal Reserve Bank of New York",
+      "bio_url": "https://www.dallasfed.org/about/governance",
+      "aliases": ["Logan", "President Logan"],
+      "related_topics": ["monetary policy", "market operations", "central bank balance sheets"]
+    },
+    {
+      "name": "Neel Kashkari",
+      "position": "Reserve Bank President",
+      "title": "President",
+      "committees": ["FOMC"],
+      "roles": ["FOMC Alternate Member", "FOMC Voting Member (rotating)"],
+      "organization": "Federal Reserve Bank of Minneapolis",
+      "region": "Ninth District",
+      "since": "2016",
+      "voting_status": "FOMC voter 2023, 2026",
+      "district": "Ninth District",
+      "previous_position": "Assistant Secretary, U.S. Treasury (2008-2009)",
+      "bio_url": "https://www.minneapolisfed.org/people/neel-kashkari",
+      "aliases": ["Kashkari", "President Kashkari"],
+      "related_topics": ["monetary policy", "banking regulation", "TBTF institutions"]
+    },
+    {
+      "name": "Mary C. Daly",
+      "position": "Reserve Bank President",
+      "title": "President",
+      "committees": ["FOMC"],
+      "roles": ["FOMC Alternate Member", "FOMC Voting Member (rotating)"],
+      "organization": "Federal Reserve Bank of San Francisco",
+      "region": "Twelfth District",
+      "since": "2018",
+      "voting_status": "FOMC voter 2024, 2027",
+      "district": "Twelfth District",
+      "bio_url": "https://www.frbsf.org/our-district/leadership/mary-c-daly/",
+      "aliases": ["Daly", "President Daly"],
+      "related_topics": ["monetary policy", "labor markets", "economic inequality"]
+    }
+  ],
+  "organizations": [
+    {
+      "name": "Federal Open Market Committee",
+      "acronym": "FOMC",
+      "type": "committee",
+      "voting_members": [
+        "Chair of the Board of Governors",
+        "Vice Chair of the Board of Governors", 
+        "5 other Governors",
+        "President of the Federal Reserve Bank of New York",
+        "4 other Reserve Bank Presidents (rotating annually)"
+      ],
+      "non_voting_members": [
+        "7 other Reserve Bank Presidents who don't currently vote"
+      ],
+      "rotation_groups": [
+        {
+          "group_1": ["Boston", "Philadelphia", "Richmond", "Chicago"],
+          "group_2": ["Cleveland", "Atlanta", "St. Louis", "Dallas"],
+          "group_3": ["Minneapolis", "Kansas City", "San Francisco"]
+        }
+      ],
+      "meeting_frequency": "Eight times per year",
+      "description": "Sets monetary policy by establishing target federal funds rate and directing open market operations",
+      "url": "https://www.federalreserve.gov/monetarypolicy/fomc.htm"
+    },
+    {
+      "name": "Federal Reserve Board of Governors",
+      "acronym": "Board",
+      "type": "governing body",
+      "members": 7,
+      "positions": ["Chair", "Vice Chair", "Vice Chair for Supervision", "4 other Governors"],
+      "appointment": "Nominated by President, confirmed by Senate",
+      "term_length": "14 years (non-renewable)",
+      "description": "Central governing body of the Federal Reserve System",
+      "responsibilities": [
+        "Monetary policy",
+        "Banking supervision",
+        "Financial stability",
+        "Payment systems",
+        "Consumer protection"
+      ],
+      "url": "https://www.federalreserve.gov/aboutthefed/default.htm"
+    },
+    {
+      "name": "Federal Reserve Bank of Boston",
+      "acronym": "FRBB",
+      "type": "reserve bank",
+      "district": "First District",
+      "headquarters": "Boston",
+      "states_covered": ["Massachusetts", "Maine", "New Hampshire", "Rhode Island", "Vermont", "Connecticut (partial)"],
+      "description": "Serves the First Federal Reserve District",
+      "url": "https://www.bostonfed.org/"
+    },
+    {
+      "name": "Federal Reserve Bank of New York",
+      "acronym": "FRBNY",
+      "type": "reserve bank",
+      "district": "Second District",
+      "headquarters": "New York City",
+      "states_covered": ["New York", "Connecticut (partial)", "New Jersey (partial)"],
+      "special_role": "Conducts open market operations and foreign exchange interventions",
+      "fomc_status": "Permanent voting member",
+      "description": "Conducts open market operations, most important of the 12 Reserve Banks",
+      "url": "https://www.newyorkfed.org/"
+    },
+    {
+      "name": "Federal Reserve Bank of Philadelphia",
+      "acronym": "FRBP",
+      "type": "reserve bank",
+      "district": "Third District",
+      "headquarters": "Philadelphia",
+      "states_covered": ["Delaware", "New Jersey (partial)", "Pennsylvania (partial)"],
+      "description": "Serves the Third Federal Reserve District",
+      "url": "https://www.philadelphiafed.org/"
+    },
+    {
+      "name": "Federal Reserve Bank of Cleveland",
+      "acronym": "FRBC",
+      "type": "reserve bank",
+      "district": "Fourth District",
+      "headquarters": "Cleveland",
+      "states_covered": ["Ohio", "Pennsylvania (partial)", "Kentucky (partial)", "West Virginia (partial)"],
+      "description": "Serves the Fourth Federal Reserve District",
+      "url": "https://www.clevelandfed.org/"
+    },
+    {
+      "name": "Federal Reserve Bank of Richmond",
+      "acronym": "FRBR",
+      "type": "reserve bank",
+      "district": "Fifth District",
+      "headquarters": "Richmond",
+      "states_covered": ["Maryland", "Virginia", "North Carolina", "South Carolina", "West Virginia (partial)", "District of Columbia"],
+      "description": "Serves the Fifth Federal Reserve District",
+      "url": "https://www.richmondfed.org/"
+    },
+    {
+      "name": "Federal Reserve Bank of Atlanta",
+      "acronym": "FRBA",
+      "type": "reserve bank",
+      "district": "Sixth District",
+      "headquarters": "Atlanta",
+      "states_covered": ["Alabama", "Florida", "Georgia", "Tennessee (partial)", "Louisiana (partial)", "Mississippi (partial)"],
+      "description": "Serves the Sixth Federal Reserve District",
+      "url": "https://www.atlantafed.org/"
+    },
+    {
+      "name": "Federal Reserve Bank of Chicago",
+      "acronym": "FRBC",
+      "type": "reserve bank",
+      "district": "Seventh District",
+      "headquarters": "Chicago",
+      "states_covered": ["Illinois", "Indiana", "Iowa", "Michigan", "Wisconsin (partial)"],
+      "description": "Serves the Seventh Federal Reserve District",
+      "url": "https://www.chicagofed.org/"
+    },
+    {
+      "name": "Federal Reserve Bank of St. Louis",
+      "acronym": "FRBSL",
+      "type": "reserve bank",
+      "district": "Eighth District",
+      "headquarters": "St. Louis",
+      "states_covered": ["Arkansas", "Illinois (partial)", "Indiana (partial)", "Kentucky (partial)", "Mississippi (partial)", "Missouri (partial)", "Tennessee (partial)"],
+      "description": "Serves the Eighth Federal Reserve District",
+      "url": "https://www.stlouisfed.org/"
+    },
+    {
+      "name": "Federal Reserve Bank of Minneapolis",
+      "acronym": "FRBM",
+      "type": "reserve bank",
+      "district": "Ninth District",
+      "headquarters": "Minneapolis",
+      "states_covered": ["Minnesota", "Montana", "North Dakota", "South Dakota", "Wisconsin (partial)", "Michigan (partial)"],
+      "description": "Serves the Ninth Federal Reserve District",
+      "url": "https://www.minneapolisfed.org/"
+    },
+    {
+      "name": "Federal Reserve Bank of Kansas City",
+      "acronym": "FRBKC",
+      "type": "reserve bank",
+      "district": "Tenth District",
+      "headquarters": "Kansas City",
+      "states_covered": ["Colorado", "Kansas", "Nebraska", "Oklahoma", "Wyoming", "Missouri (partial)", "New Mexico (partial)"],
+      "description": "Serves the Tenth Federal Reserve District",
+      "url": "https://www.kansascityfed.org/"
+    },
+    {
+      "name": "Federal Reserve Bank of Dallas",
+      "acronym": "FRBD",
+      "type": "reserve bank",
+      "district": "Eleventh District",
+      "headquarters": "Dallas",
+      "states_covered": ["Texas", "Louisiana (partial)", "New Mexico (partial)"],
+      "description": "Serves the Eleventh Federal Reserve District",
+      "url": "https://www.dallasfed.org/"
+    },
+    {
+      "name": "Federal Reserve Bank of San Francisco",
+      "acronym": "FRBSF",
+      "type": "reserve bank",
+      "district": "Twelfth District",
+      "headquarters": "San Francisco",
+      "states_covered": ["Alaska", "Arizona", "California", "Hawaii", "Idaho", "Nevada", "Oregon", "Utah", "Washington"],
+      "description": "Largest district by geography and economy",
+      "url": "https://www.frbsf.org/"
+    },
+    {
+      "name": "Federal Financial Institutions Examination Council",
+      "acronym": "FFIEC",
+      "type": "interagency council",
+      "members": ["Federal Reserve", "FDIC", "OCC", "NCUA", "CFPB"],
+      "description": "Coordinates regulations for financial institutions",
+      "url": "https://www.ffiec.gov/"
+    }
+  ],
+  "publications": [
+    {
+      "name": "Beige Book",
+      "full_name": "Summary of Commentary on Current Economic Conditions",
+      "frequency": "Eight times per year",
+      "publishing_body": "Federal Reserve Board",
+      "url_pattern": "https://www.federalreserve.gov/monetarypolicy/beigebook",
+      "description": "Report on current economic conditions in each District",
+      "release_schedule": ["January", "March", "April", "June", "July", "September", "October", "December"],
+      "related_topics": ["economic conditions", "regional economy"]
+    },
+    {
+      "name": "Minutes",
+      "full_name": "Minutes of the Federal Open Market Committee",
+      "frequency": "Eight times per year",
+      "publishing_body": "FOMC",
+      "url_pattern": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+      "release_timing": "Three weeks after each FOMC meeting",
+      "key_sections": ["Participants' views", "Staff Review", "Committee Policy Action"],
+      "significance": "Provides detailed insights into FOMC deliberations"
+    },
+    {
+      "name": "Monetary Policy Report",
+      "full_name": "Monetary Policy Report to the Congress",
+      "frequency": "Semiannual",
+      "publishing_body": "Federal Reserve Board",
+      "url_pattern": "https://www.federalreserve.gov/monetarypolicy/mpr_default.htm",
+      "release_schedule": ["February", "July"],
+      "related_topics": ["monetary policy", "economic outlook"],
+      "congressional_testimony": true
+    },
+    {
+      "name": "Financial Stability Report",
+      "full_name": "Financial Stability Report",
+      "frequency": "Semiannual",
+      "publishing_body": "Federal Reserve Board",
+      "url_pattern": "https://www.federalreserve.gov/publications/financial-stability-report.htm",
+      "description": "Assessment of the resilience of the U.S. financial system",
+      "release_schedule": ["May", "November"],
+      "related_topics": ["financial stability", "systemic risk"]
+    },
+    {
+      "name": "Supervision and Regulation Report",
+      "full_name": "Supervision and Regulation Report",
+      "frequency": "Semiannual",
+      "publishing_body": "Federal Reserve Board",
+      "url_pattern": "https://www.federalreserve.gov/publications/supervision-and-regulation-report.htm",
+      "description": "Overview of banking system conditions and Fed supervisory activities",
+      "release_schedule": ["Spring", "Fall"],
+      "related_topics": ["banking supervision", "regulation"]
+    }
+  ],
+  "events": [
+    {
+      "name": "FOMC Meeting",
+      "frequency": "Eight times per year",
+      "announcement_type": "Statement",
+      "followed_by": ["Press Conference", "Minutes (3 weeks later)"],
+      "market_impact": "High",
+      "typical_topics": ["federal funds rate", "balance sheet", "economic outlook"]
+    },
+    {
+      "name": "Semiannual Monetary Policy Testimony",
+      "frequency": "Twice per year",
+      "description": "Chair testifies before Congress on monetary policy",
+      "timing": ["February", "July"],
+      "related_publication": "Monetary Policy Report",
+      "market_impact": "Medium"
+    },
+    {
+      "name": "Economic Symposium at Jackson Hole",
+      "frequency": "Annual",
+      "host": "Federal Reserve Bank of Kansas City",
+      "timing": "Late August",
+      "description": "Conference for central bankers, economists, and policymakers",
+      "significance": "Often used for major policy announcements",
+      "market_impact": "High"
+    },
+    {
+      "name": "Financial Stability Oversight Council Meeting",
+      "acronym": "FSOC",
+      "frequency": "Quarterly",
+      "participants": ["Treasury Secretary", "Fed Chair", "Other regulators"],
+      "description": "Identifies risks to financial stability and responds to emerging threats",
+      "market_impact": "Low-Medium"
+    }
+  ],
+  "topics": [
+    {
+      "name": "Monetary Policy",
+      "related_terms": ["interest rates", "federal funds rate", "open market operations"],
+      "key_officials": ["Chair", "FOMC Members"],
+      "related_publications": ["FOMC Statement", "Monetary Policy Report"]
+    },
+    {
+      "name": "Financial Stability",
+      "related_terms": ["systemic risk", "macroprudential policy", "stress tests"],
+      "key_officials": ["Vice Chair for Supervision", "Governor"],
+      "related_publications": ["Financial Stability Report", "Supervision and Regulation Report"]
+    },
+    {
+      "name": "Banking Supervision",
+      "related_terms": ["capital requirements", "examinations", "regulatory compliance"],
+      "key_officials": ["Vice Chair for Supervision", "Governor"],
+      "related_publications": ["Supervision and Regulation Report"]
+    },
+    {
+      "name": "Inflation",
+      "related_terms": ["price stability", "CPI", "PCE", "inflation expectations"],
+      "key_indicators": ["Personal Consumption Expenditures (PCE)", "Consumer Price Index (CPI)"],
+      "target": "2% average over time",
+      "related_publications": ["FOMC Statement", "Monetary Policy Report"]
+    },
+    {
+      "name": "Employment",
+      "related_terms": ["maximum employment", "labor market", "unemployment rate"],
+      "key_indicators": ["Nonfarm Payrolls", "Unemployment Rate", "Labor Force Participation"],
+      "related_publications": ["Beige Book", "Monetary Policy Report"]
+    }
+  ],
+  "data_releases": [
+    {
+      "name": "H.4.1",
+      "full_name": "Factors Affecting Reserve Balances",
+      "frequency": "Weekly (Thursday)",
+      "publishing_body": "Federal Reserve Board",
+      "description": "Federal Reserve balance sheet and related data",
+      "url_pattern": "https://www.federalreserve.gov/releases/h41/",
+      "key_metrics": ["Total assets", "Securities holdings", "Reserve balances"]
+    },
+    {
+      "name": "H.15",
+      "full_name": "Selected Interest Rates",
+      "frequency": "Daily/Weekly",
+      "publishing_body": "Federal Reserve Board",
+      "url_pattern": "https://www.federalreserve.gov/releases/h15/",
+      "description": "Current and historical interest rates for various instruments",
+      "key_metrics": ["Treasury yields", "Commercial paper rates", "Bank prime rate"]
+    },
+    {
+      "name": "G.19",
+      "full_name": "Consumer Credit",
+      "frequency": "Monthly",
+      "publishing_body": "Federal Reserve Board",
+      "url_pattern": "https://www.federalreserve.gov/releases/g19/",
+      "description": "Outstanding consumer credit and growth rates",
+      "key_metrics": ["Revolving credit", "Non-revolving credit", "Growth rates"]
+    }
+  ]
+} 

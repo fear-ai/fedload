@@ -5,3 +5,7 @@ beautifulsoup4
 schedule
 spacy
 pytest
+newspaper3k
+trafilatura
+html2text
+pdfminer.six

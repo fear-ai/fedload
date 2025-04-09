@@ -1,11 +1,81 @@
 {
   "sites": [
     "https://www.federalreserve.gov/",
+    "https://www.federalreserve.gov/newsevents/calendar.htm",
+    "https://www.federalreserve.gov/newsevents/pressreleases.htm",
+    "https://www.federalreserve.gov/monetarypolicy/fomc.htm",
+    "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "https://www.federalreserve.gov/monetarypolicy/beigebook",
+    "https://www.federalreserve.gov/aboutthefed/boardmeetings/meetingdates.htm",
+    "https://www.federalreserve.gov/publications/financial-stability-report.htm",
+    "https://www.federalreserve.gov/supervisionreg.htm",
+    
     "https://www.newyorkfed.org/",
-    "https://www.frbservices.org/",
+    "https://www.newyorkfed.org/markets",
+    "https://www.newyorkfed.org/research",
+    "https://www.newyorkfed.org/newsevents/speeches",
+    
+    "https://www.bostonfed.org/",
+    "https://www.bostonfed.org/news-and-events.aspx",
+    "https://www.bostonfed.org/publications.aspx",
+    
+    "https://www.philadelphiafed.org/",
+    "https://www.philadelphiafed.org/surveys-and-data",
+    
+    "https://www.clevelandfed.org/",
+    "https://www.clevelandfed.org/en/newsroom-and-events.aspx",
+    
+    "https://www.richmondfed.org/",
+    "https://www.richmondfed.org/publications",
+    
+    "https://www.atlantafed.org/",
+    "https://www.atlantafed.org/research",
+    "https://www.atlantafed.org/news",
+    
     "https://www.chicagofed.org/",
-    "https://www.frbatlanta.org/",
+    "https://www.chicagofed.org/publications/economic-perspectives",
+    
+    "https://www.stlouisfed.org/",
+    "https://www.stlouisfed.org/publications",
+    "https://www.stlouisfed.org/news-releases",
+    "https://fred.stlouisfed.org/",
+    
+    "https://www.minneapolisfed.org/",
+    "https://www.minneapolisfed.org/research",
+    
     "https://www.kansascityfed.org/",
-    "https://www.federalreserve.gov/newsevents/calendar.htm"
+    "https://www.kansascityfed.org/research",
+    "https://www.kansascityfed.org/speeches",
+    
+    "https://www.dallasfed.org/",
+    "https://www.dallasfed.org/research/update",
+    "https://www.dallasfed.org/news/speeches",
+    
+    "https://www.frbsf.org/",
+    "https://www.frbsf.org/economic-research/",
+    "https://www.frbsf.org/our-district/press/presidents-speeches/",
+    
+    "https://www.frbservices.org/",
+    
+    "https://www.frbatlanta.org/",
+    "https://www.frbatlanta.org/news",
+
+    "https://www.federalreserve.gov/aboutthefed/bios/board/powell.htm",
+    "https://www.federalreserve.gov/aboutthefed/bios/board/jefferson.htm",
+    "https://www.federalreserve.gov/aboutthefed/bios/board/barr.htm",
+    "https://www.federalreserve.gov/aboutthefed/bios/board/bowman.htm",
+    "https://www.federalreserve.gov/aboutthefed/bios/board/cook.htm",
+    "https://www.federalreserve.gov/aboutthefed/bios/board/waller.htm",
+    "https://www.federalreserve.gov/aboutthefed/bios/board/kugler.htm",
+    
+    "https://www.federalreserve.gov/monetarypolicy/fomc_historical_year.htm",
+    "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    "https://www.federalreserve.gov/monetarypolicy/beigebook/default.htm",
+    "https://www.federalreserve.gov/monetarypolicy/mpr_default.htm",
+    "https://www.federalreserve.gov/monetarypolicy/2023-06-mpr-summary.htm",
+    "https://www.federalreserve.gov/monetarypolicy/review-of-monetary-policy-strategy-tools-and-communications.htm",
+    
+    "https://www.federalreserve.gov/newsevents/testimony.htm",
+    "https://www.federalreserve.gov/newsevents/speeches.htm"
   ]
 }
