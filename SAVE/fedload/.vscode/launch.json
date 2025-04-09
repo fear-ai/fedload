@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Fed Load",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceFolder}/fed_load/main.py",
+      "console": "integratedTerminal"
+    }
+  ]
+}

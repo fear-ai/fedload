@@ -1,0 +1,39 @@
+The FED - US Federal Reserve System, is a national central bank, which is crucial to regional and global financial and monetary system operations. www.federalreserve.gov
+FED coordinates with ECB European Central Bank and with 
+Seven member Board of Governors has a Chair.
+FOMC Federal Open Market Committee includes Governors.
+FED comprises of 12 district banks[regional branches], each with a President.
+FSRDC Federal Statistical Research Data Centers
+
+FED operates:
+FedACH automated clearing house system and FedNow instant payments.
+Fedwire Funds Services and Fedwire Securities Services.
+Discount Window overnight funds service for Primary, Secondary, Seasonal credit.
+Balance Sheet is updated for Quantitative Easing QE operations.
+
+In addition to its main website, FED operates a site for each of 12 districts, and other information portals. Tracking daily updates is difficult, requiring automation to note added or deleted pages and updated content. Sorting, searching, and summarization based on subject or topic is needed.
+
+Well-defined named entities in the FED information include past and present Governors, Presidents, Directors, employees, and researchers. There are divisions and departments, specific periodic publications and scheduled meetings, like the Beige Book and FOMC Meeting.
+
+Interesting sites:
+        "https://www.federalreserve.gov/",
+        "https://www.federalreserve.gov/newsevents/calendar.htm",
+        "https://www.federalreserve.gov/econresdata/",
+        "https://www.federalreserve.gov/monetarypolicy.htm",
+        "https://www.federalreserve.gov/publications.htm",
+        "https://www.newyorkfed.org/",
+        "https://www.bostonfed.org/",
+        "https://www.philadelphiafed.org/",
+        "https://www.clevelandfed.org/",
+        "https://www.richmondfed.org/",
+        "https://www.atlantafed.org/",
+        "https://www.chicagofed.org/",
+        "https://www.stlouisfed.org/",
+        "https://www.kansascityfed.org/",
+        "https://www.dallasfed.org/",
+        "https://www.minneapolisfed.org/",
+        "https://www.sanfranciscofed.org/",
+        "https://www.frbservices.org/",
+
+
+Document product requirements, present implementation plan, develop code and test, orchestrate deployment and support.

@@ -1,0 +1,4 @@
+output_dir: output
+user_agent: FedTrackerBot/1.0
+software_version: v0.1.0
+run_profile: default
