@@ -8,43 +8,52 @@ A lightweight system to monitor US Federal Reserve websites for content changes.
 - Entity extraction & summarization support
 - Generates daily HTML reports for web/newsletter publication
 - Stores NER entities persistently between runs
+- Advanced text extraction with multiple parsers
+- PDF content processing support
 
 ## 🛠️ Project Phases
 
 ### Phase 1: Planning & Setup ✓
 - Define goals and source list
 - Identify change signals (DOM structure, content hashes)
-- Chosen stack: Python, FastAPI, schedule, BeautifulSoup
+- Chosen stack: Python, FastAPI, schedule, BeautifulSoup, newspaper3k, trafilatura, html2text, pdfminer.six
 
 ### Phase 2: Web Crawler & Change Detection ✓
 - Implement fetcher using `requests` and `BeautifulSoup`
 - Compute content hash to detect changes
 - Diff logic in `diff.py`
+- Support for PDF content extraction
 
 ### Phase 3: Named Entity Recognition ✓
 - `spaCy` used to extract title-cased words
 - Identifies likely people/organizations
 - Saves entity data in `entity_store.json`
+- Enhanced entity enrichment with custom recognizer
 
 ### Phase 4: Search, Summarization & Dashboard ✓
 - Sentence-based summarization of longest content
 - Entity extraction shown via API
 - Generates daily HTML reports for publishing
+- Multiple text extraction methods for better content parsing
 
 ### Phase 5: Testing & QA ✓
 - Try/Except on network & file errors
 - Graceful exit via `Ctrl+C`
 - JSON logs retained safely
 - Ready for automated testing via test suite
+- Comprehensive error handling and logging
 
 ### Phase 6: Deployment & Support ✓
 - Run locally with virtualenv and scheduler
 - Report export to HTML for website/newsletter publishing
 - Configurable check frequency and report generation
+- Data retention policies for logs and reports
 
 ### Phase 7: Documentation & Handoff ✓
 - GitHub-style README with usage
 - In-code documentation and modular file structure
+- API documentation with FastAPI
+- Configuration documentation
 
 ## 📦 Install
 ```bash
@@ -68,13 +77,14 @@ Once running, access the API documentation at: http://127.0.0.1:8000/docs
 
 | Endpoint | Method | Description | Example |
 |----------|--------|-------------|---------|
+| `/` | GET | Root endpoint | http://127.0.0.1:8000/ |
 | `/docs` | GET | Interactive API documentation | http://127.0.0.1:8000/docs |
 | `/check` | GET | Check a specific FED website for changes | http://127.0.0.1:8000/check?url=https://www.federalreserve.gov/ |
 | `/entities` | GET | Get all tracked entities across websites | http://127.0.0.1:8000/entities |
 | `/publications` | GET | Get all tracked FED publications | http://127.0.0.1:8000/publications |
 | `/config` | GET | View current configuration | http://127.0.0.1:8000/config |
 
-> **Note:** Accessing just http://127.0.0.1:8000/ will return a "Not Found" error because you need to specify one of the above endpoints.
+> **Note:** The root endpoint (`/`) returns a simple status message. All other endpoints require specific paths as shown above.
 
 ### Run Scheduler (for automated monitoring)
 ```bash
@@ -88,6 +98,7 @@ The scheduler will:
   - Daily reports (enabled by default)
   - Weekly summaries (disabled by default)
 - Log all changes to `change_log.json`
+- Apply data retention policies for logs and reports
 
 ## 📤 Data Files
 - `config.json` - Configuration settings for scheduling, monitoring, and entity recognition
@@ -149,6 +160,30 @@ The system is configured through `config.json` with the following options:
   }
 }
 ```
+
+### Configuration Options
+
+#### Scheduling
+- `check_frequency_minutes`: How often to check sites (default: 30)
+- `report_generation`: Settings for report generation
+  - `daily_report`: Daily change report settings
+  - `weekly_summary`: Weekly summary settings
+- `data_retention`: How long to keep logs and reports
+  - `change_log_days`: Days to keep change logs (default: 90)
+  - `reports_days`: Days to keep reports (default: 30)
+
+#### Entity Recognition
+- `use_fed_entities`: Whether to use FED-specific entity recognition
+- `enrich_existing_entities`: Whether to enrich entities with additional data
+
+#### Monitoring
+- `content_hash_algorithm`: Algorithm for change detection
+- `timeout_seconds`: Request timeout
+- `user_agent`: Custom user agent for requests
+
+#### Notifications
+- `on_change`: Settings for change notifications
+- `on_error`: Settings for error notifications
 
 ## 🧠 Enhanced Entity Recognition
 
@@ -225,6 +260,7 @@ This enhanced entity recognition:
 - Supports relationship mapping between people, organizations, and publications
 - Enables more accurate classification of content changes
 - Allows tracking of specific publication release cycles
+- Includes event and topic tracking
 
 ## 📂 Code Structure
 - `main.py` – FastAPI server with summary + NER endpoints
@@ -232,6 +268,7 @@ This enhanced entity recognition:
 - `fetcher.py` - Web page fetching and text extraction
 - `hasher.py` - Content hashing utilities
 - `diff.py` - Change detection logic
+- `doc/` - Additional documentation
 
 ## ✅ Testing
 To verify the system is working correctly:
@@ -248,26 +285,21 @@ python scheduler.py
 
 3. Test API functionality:
 ```bash
-# In a different terminal
-uvicorn main:app
+uvicorn main:app --reload
 ```
-   - Visit http://127.0.0.1:8000/docs in your browser
-   - Try the `/check` endpoint with a FED URL like "https://www.federalreserve.gov/"
-   - View recognized entities with the `/entities` endpoint
-   - See tracked publications with the `/publications` endpoint
-   - View current configuration with the `/config` endpoint
+Then visit http://127.0.0.1:8000/docs to test endpoints
 
-4. Run the automated tests:
-```bash
-pytest tests/
-```
+4. Check data retention:
+   - Verify old logs and reports are automatically cleaned up
+   - Confirm new data is being properly stored
 
-## 🔍 Monitoring Results
-After running for a while, you should see:
-- Regular updates in the terminal showing site checks
-- Growing `change_log.json` file as changes are detected
-- Accumulated entities in `entity_store.json`
-- Daily updates to `daily_report.html`
-- Weekly summaries in `weekly_summary.html` (if enabled)
+## 🔄 Updates
+- Added support for PDF content extraction
+- Enhanced text extraction with multiple parsers
+- Improved entity recognition with custom components
+- Added data retention policies
+- Expanded configuration options
+- Added root endpoint
+- Improved error handling and logging
 
 ---

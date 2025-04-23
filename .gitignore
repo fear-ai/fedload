@@ -1,8 +1,8 @@
 # Project specific files
-change_log.json
+#change_log.json
 entity_store.json
-daily_report.html
-weekly_summary.html
+#daily_report.html
+#weekly_summary.html
 
 # Python bytecode
 __pycache__/
