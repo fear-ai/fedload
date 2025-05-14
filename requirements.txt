@@ -1,7 +1,20 @@
+# Core dependencies
 fastapi
 uvicorn
 requests
 beautifulsoup4
 schedule
 spacy
+newspaper3k
+trafilatura
+html2text
+pdfminer.six
+
+# Testing and CI/CD
 pytest
+pytest-cov
+flake8
+bandit
+safety
+black
+mypy

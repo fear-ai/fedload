@@ -1,1 +1,71 @@
-<html><body><h2>FED Website Daily Report</h2></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FED Website Changes Report</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px;
+            color: #333;
+        }
+        h1, h2, h3 { 
+            color: #00395b; 
+        }
+        table { 
+            border-collapse: collapse; 
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 8px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #00395b; 
+            color: white; 
+        }
+        tr:nth-child(even) { 
+            background-color: #f2f2f2; 
+        }
+        .publication { 
+            color: #7030a0; 
+            font-weight: bold; 
+        }
+        .person { 
+            color: #0070c0; 
+            font-weight: bold; 
+        }
+        .organization { 
+            color: #c00000; 
+            font-weight: bold; 
+        }
+        .footer {
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+            font-size: 0.8em;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>FED Website Changes Report</h1>
+    <p>This report is generated automatically by FedLoad to track changes across Federal Reserve websites.</p>
+    <p id="generation-time">Generated: Waiting for first scheduler run...</p>
+    
+    <h2>Recent Changes</h2>
+    <p>No changes detected yet. This section will be populated when the scheduler detects changes.</p>
+    
+    <h2>FED Publications Mentioned</h2>
+    <p>No publications detected yet.</p>
+    
+    <h2>FED Officials Mentioned</h2>
+    <p>No officials detected yet.</p>
+
+    <div class="footer">
+        <p>FedLoad - Federal Reserve Website Monitor</p>
+        <p>See the <a href="weekly_summary.html">weekly summary</a> for aggregated statistics.</p>
+    </div>
+</body>
+</html>

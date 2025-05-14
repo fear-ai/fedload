@@ -1,23 +1,45 @@
 {
-  "tracked_sites": [
-    "https://www.federalreserve.gov/",
-    "https://www.newyorkfed.org/",
-    "https://www.frbservices.org/",
-    "https://www.chicagofed.org/",
-    "https://www.frbatlanta.org/",
-    "https://www.kansascityfed.org/",
-    "https://www.federalreserve.gov/newsevents/calendar.htm"
-  ],
-  "ner_keywords": [
-    "Governor",
-    "President",
-    "Director",
-    "Chair",
-    "Research"
-  ],
-  "report_generation": {
-    "frequency_minutes": 30,
-    "auto_generate": true,
-    "retain_days": 30
+  "scheduling": {
+    "check_frequency_minutes": 30,
+    "report_generation": {
+      "daily_report": {
+        "enabled": true,
+        "time": "00:00",
+        "format": "html"
+      },
+      "weekly_summary": {
+        "enabled": false,
+        "day": "Monday",
+        "time": "06:00",
+        "format": "html"
+      }
+    },
+    "data_retention": {
+      "change_log_days": 90,
+      "reports_days": 30
+    }
+  },
+  "entity_recognition": {
+    "use_fed_entities": true,
+    "enrich_existing_entities": true
+  },
+  "monitoring": {
+    "content_hash_algorithm": "sha256",
+    "timeout_seconds": 10,
+    "user_agent": "FedLoad Monitor/1.0"
+  },
+  "notifications": {
+    "on_change": {
+      "enabled": false,
+      "console": true,
+      "email": false,
+      "email_recipients": []
+    },
+    "on_error": {
+      "enabled": false,
+      "console": true,
+      "email": false,
+      "email_recipients": []
+    }
   }
 }
