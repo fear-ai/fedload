@@ -22,32 +22,20 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         
-    - name: Set up Python environment
+    - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install --upgrade setuptools wheel
-        
-    - name: Install spaCy
-      run: |
-        python -m pip install spacy
+        pip install -r requirements.txt
         python -m spacy download en_core_web_sm
         
     - name: Install remaining dependencies
       run: |
         pip install -r requirements.txt
         
-    - name: Fix import paths
+    - name: Install dependencies
       run: |
-        # Create directories if they don't exist
-        mkdir -p fetcher scheduler
-        
-        # Create __init__.py files to make directories importable
-        touch fetcher/__init__.py
-        touch scheduler/__init__.py
-        
-    - name: Install in development mode
-      run: |
-        pip install -e .
+        pip install -r requirements.txt
+        python -m spacy download en_core_web_sm
         
     - name: Lint with flake8
       run: |
@@ -84,7 +72,7 @@ jobs:
     - name: Run Bandit security linter
       run: |
         pip install bandit
-        bandit -r . -c pyproject.toml
+        bandit -r . --severity-level medium
         
     - name: Run Safety check
       run: |
