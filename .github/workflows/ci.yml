@@ -22,13 +22,25 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         
-    - name: Install dependencies
+    - name: Set up Python environment
       run: |
         python -m pip install --upgrade pip
+        python -m pip install --upgrade setuptools wheel
+        
+    - name: Install spaCy
+      run: |
+        python -m pip install spacy
+        python -m spacy download en_core_web_sm
+        
+    - name: Install remaining dependencies
+      run: |
         pip install -r requirements.txt
         
     - name: Fix import paths
       run: |
+        # Create directories if they don't exist
+        mkdir -p fetcher scheduler
+        
         # Create __init__.py files to make directories importable
         touch fetcher/__init__.py
         touch scheduler/__init__.py
