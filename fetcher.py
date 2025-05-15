@@ -5,7 +5,7 @@ import html2text
 import trafilatura
 from newspaper import Article
 import os
-import ftplib
+import paramiko
 from urllib.parse import urlparse
 import tempfile
 import logging
@@ -54,11 +54,11 @@ def fetch_page(url):
     
     # 4. FTP
     if scheme == "ftp":
-        return fetch_ftp(parsed_url, secure=False)
+        return fetch_sftp(parsed_url)
     
     # 5. FTPS (Secure FTP)
     if scheme == "ftps":
-        return fetch_ftp(parsed_url, secure=True)
+        return fetch_sftp(parsed_url)
     
     # 6. File
     if scheme == "file":
@@ -96,74 +96,44 @@ def fetch_local_file(path):
         logger.error(f"Error fetching local file {path}: {str(e)}")
         return None
 
-def fetch_ftp(parsed_url, secure=False):
-    """Fetch content from an FTP server.
+def fetch_sftp(parsed_url):
+    """Fetch content from an SFTP server.
     
     Args:
         parsed_url (ParseResult): Parsed URL from urlparse
-        secure (bool): Whether to use FTPS (secure FTP)
         
     Returns:
         str: File content or None if failed
     """
     try:
-        # Extract FTP connection info
+        # Extract SFTP connection info
         hostname = parsed_url.netloc
-        port = 21  # Default FTP port
+        port = 22  # Default SFTP port
         
         # Handle username/password if provided
-        username = 'anonymous'
-        password = 'anonymous@'
-        if '@' in hostname:
-            auth, hostname = hostname.split('@', 1)
-            if ':' in auth:
-                username, password = auth.split(':', 1)
-            else:
-                username = auth
+        username = parsed_url.username if parsed_url.username else "anonymous"
+        password = parsed_url.password if parsed_url.password else ""
         
-        # Extract path
-        path = parsed_url.path
-        if not path or path == '/':
-            logger.error(f"FTP path not specified in {parsed_url.geturl()}")
-            return None
+        # Create SFTP connection
+        transport = paramiko.Transport((hostname, port))
+        transport.connect(username=username, password=password)
+        sftp = paramiko.SFTPClient.from_transport(transport)
         
-        # Create a temporary file to store the downloaded content
+        # Get the remote file path
+        remote_path = parsed_url.path
+        
+        # Create a temporary file to store the content
         with tempfile.NamedTemporaryFile(delete=False) as temp_file:
             temp_path = temp_file.name
-        
-        # Connect to FTP server
-        if secure:
-            import ssl
-            from ftplib import FTP_TLS
             
-            # Use FTP_TLS for secure connections
-            ftp = FTP_TLS()
-            ftp.connect(hostname, port)
-            ftp.login(username, password)
-            ftp.prot_p()  # Set up secure data connection
-            logger.info(f"Connected to FTPS server: {hostname}")
-        else:
-            ftp = ftplib.FTP()
-            ftp.connect(hostname, port)
-            ftp.login(username, password)
-            logger.info(f"Connected to FTP server: {hostname}")
+            # Download the file
+            sftp.get(remote_path, temp_path)
+            
+        # Close SFTP connection
+        sftp.close()
+        transport.close()
         
-        # Navigate to directory and get file
-        if '/' in path:
-            directory = os.path.dirname(path)
-            filename = os.path.basename(path)
-            if directory:
-                try:
-                    ftp.cwd(directory)
-                    logger.info(f"Changed to directory: {directory}")
-                except Exception as e:
-                    logger.error(f"Error changing to directory {directory}: {str(e)}")
-                    ftp.quit()
-                    os.unlink(temp_path)
-                    return None
-        else:
-            filename = path
-        
+        # Read content from temporary file
         # Download the file
         try:
             with open(temp_path, 'wb') as f:

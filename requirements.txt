@@ -9,6 +9,7 @@ newspaper3k
 trafilatura
 html2text
 pdfminer.six
+paramiko
 
 # Testing and CI/CD
 pytest
