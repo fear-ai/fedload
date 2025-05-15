@@ -277,6 +277,19 @@
       "bio_url": "https://www.frbsf.org/our-district/leadership/mary-c-daly/",
       "aliases": ["Daly", "President Daly"],
       "related_topics": ["monetary policy", "labor markets", "economic inequality"]
+    },
+    {
+      "name": "Lael Brainard",
+      "position": "Governor",
+      "title": "Former Vice Chair",
+      "committees": ["FOMC", "Board of Governors"],
+      "roles": ["Former Vice Chair of the Federal Reserve"],
+      "organization": "Federal Reserve Board of Governors",
+      "since": "2014",
+      "term_expires": "2026",
+      "bio_url": "https://www.federalreserve.gov/aboutthefed/bios/board/brainard.htm",
+      "aliases": ["Brainard", "Governor Brainard"],
+      "related_topics": ["monetary policy", "climate change", "financial regulation"]
     }
   ],
   "organizations": [
