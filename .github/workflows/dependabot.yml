@@ -1,4 +1,4 @@
-if: false
+#if: false
 version: 2
 updates:
   - package-ecosystem: "pip"
@@ -17,7 +17,5 @@ updates:
       prefix: "pip"
       include: "scope"
     ignore:
-      - dependency-name: "spacy"
-        versions: ["3.0.0", "3.1.0"]
-      - dependency-name: "fastapi"
-        versions: ["0.68.0", "0.68.1"] 
+      # Removed spaCy version restrictions to allow updates to latest stable version
+# No specific version restrictions for FastAPI - using latest stable version

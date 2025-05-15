@@ -192,7 +192,7 @@ def hash_content(content):
     if algorithm == "sha256":
         return hashlib.sha256(content.encode()).hexdigest()
     elif algorithm == "md5":
-        return hashlib.md5(content.encode()).hexdigest()
+        return hashlib.md5(content.encode(), usedforsecurity=False).hexdigest()
     else:
         # Default to sha256
         return hashlib.sha256(content.encode()).hexdigest()
