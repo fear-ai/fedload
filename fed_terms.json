@@ -1,0 +1,17 @@
+{
+  "terms": [
+    {
+      "name": "Gross Domestic Product",
+      "acronym": "GDP",
+      "description": "A comprehensive measure of the U.S. economy and its growth.",
+      "related_topics": ["economic growth", "recession", "inflation"],
+      "source_url": "https://www.bea.gov/data/gdp/gross-domestic-product"
+    },
+    {
+      "name": "Earnings Per Share",
+      "acronym": "EPS",
+      "description": "A company's profit divided by the outstanding shares of its common stock.",
+      "related_topics": ["investing", "stock market"]
+    }
+  ]
+}
