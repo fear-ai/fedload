@@ -1,0 +1,69 @@
+version: '3.8'
+
+services:
+  fedload-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+      args:
+        BUILD_DATE: ${BUILD_DATE:-$(date -u +'%Y-%m-%dT%H:%M:%SZ')}
+        VERSION: ${VERSION:-latest}
+        VCS_REF: ${VCS_REF:-$(git rev-parse --short HEAD)}
+    container_name: fedload-api
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./config.json:/app/config.json:ro
+      - ./fed_entities.json:/app/fed_entities.json:ro
+      - ./tracked_sites.json:/app/tracked_sites.json:ro
+      - fedload-logs:/app/logs
+      - fedload-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - fedload-network
+
+  fedload-scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+      args:
+        BUILD_DATE: ${BUILD_DATE:-$(date -u +'%Y-%m-%dT%H:%M:%SZ')}
+        VERSION: ${VERSION:-latest}
+        VCS_REF: ${VCS_REF:-$(git rev-parse --short HEAD)}
+    container_name: fedload-scheduler
+    environment:
+      - PYTHONPATH=/app
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./config.json:/app/config.json:ro
+      - ./fed_entities.json:/app/fed_entities.json:ro
+      - ./tracked_sites.json:/app/tracked_sites.json:ro
+      - fedload-logs:/app/logs
+      - fedload-data:/app/data
+    command: ["python", "scheduler.py"]
+    restart: unless-stopped
+    depends_on:
+      - fedload-api
+    networks:
+      - fedload-network
+
+volumes:
+  fedload-logs:
+    driver: local
+  fedload-data:
+    driver: local
+
+networks:
+  fedload-network:
+    driver: bridge 

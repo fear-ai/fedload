@@ -1,45 +1,73 @@
 {
-  "scheduling": {
-    "check_frequency_minutes": 30,
-    "report_generation": {
-      "daily_report": {
-        "enabled": true,
-        "time": "00:00",
-        "format": "html"
-      },
-      "weekly_summary": {
-        "enabled": false,
-        "day": "Monday",
-        "time": "06:00",
-        "format": "html"
-      }
-    },
-    "data_retention": {
-      "change_log_days": 90,
-      "reports_days": 30
-    }
-  },
-  "entity_recognition": {
-    "use_fed_entities": true,
-    "enrich_existing_entities": true
-  },
-  "monitoring": {
-    "content_hash_algorithm": "sha256",
-    "timeout_seconds": 10,
-    "user_agent": "FedLoad Monitor/1.0"
-  },
-  "notifications": {
-    "on_change": {
-      "enabled": false,
-      "console": true,
-      "email": false,
-      "email_recipients": []
-    },
-    "on_error": {
-      "enabled": false,
-      "console": true,
-      "email": false,
-      "email_recipients": []
-    }
-  }
+	"scheduling": {
+		"check_frequency_minutes": 30,
+		"report_generation": {
+			"daily_report": {
+				"enabled": true,
+				"time": "00:00",
+				"format": "html"
+			},
+			"weekly_summary": {
+				"enabled": false,
+				"day": "Monday",
+				"time": "06:00",
+				"format": "html"
+			}
+		},
+		"data_retention": {
+			"change_log_days": 90,
+			"reports_days": 30
+		}
+	},
+	"entity_recognition": {
+		"enabled": false,
+		"use_fed_entities": true,
+		"enrich_existing_entities": true,
+		"min_word_length": 3,
+		"ignore_common_words": true,
+		"typo_correction": true
+	},
+	"monitoring": {
+		"content_hash_algorithm": "md5",
+		"hash_check_initial_bytes": 512,
+		"max_content_size_mb": 50,
+		"timeout_seconds": 10,
+		"user_agent": "FedLoad Monitor/1.0",
+		"url_filtering": {
+			"enabled": false,
+			"require_gov_tld": false,
+			"allowed_tlds": [
+				".gov",
+				".edu",
+				".org"
+			],
+			"blocked_tlds": [
+				".tk",
+				".ml"
+			],
+			"allowed_domains": [],
+			"blocked_domains": [],
+			"allowed_path_patterns": [],
+			"blocked_path_patterns": []
+		}
+	},
+	"logging": {
+		"max_size_mb": 10,
+		"backup_count": 5,
+		"level": "INFO"
+	},
+	"notifications": {
+		"on_change": {
+			"enabled": false,
+			"console": true,
+			"email": false,
+			"email_recipients": []
+		},
+		"on_error": {
+			"enabled": false,
+			"console": true,
+			"email": false,
+			"email_recipients": []
+		}
+	}
 }

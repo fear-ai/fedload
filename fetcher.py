@@ -27,46 +27,50 @@ def fetch_page(url):
     Returns:
         str: HTML content or None if failed
     """
-    # Parse the URL to determine the protocol
-    parsed_url = urlparse(url)
-    scheme = parsed_url.scheme.lower() if parsed_url.scheme else ""
-    
-    # Handle URLs in the specified order: no scheme, http, https, ftp, ftps, file
-    
-    # 1. No scheme - try to determine if it's a local file or assume http
-    if not scheme:
-        logger.info(f"No scheme specified for {url}, attempting to determine source type")
-        if os.path.exists(url):
-            logger.info(f"URL {url} exists as a local file, treating as file")
-            return fetch_local_file(url)
-        else:
-            # Try to prepend http:// and fetch
-            logger.info(f"URL {url} doesn't exist locally, treating as http URL")
-            return fetch_http(f"http://{url}")
-    
-    # 2. HTTP
-    if scheme == "http":
-        return fetch_http(url)
-    
-    # 3. HTTPS
-    if scheme == "https":
-        return fetch_http(url)
-    
-    # 4. FTP
-    if scheme == "ftp":
-        return fetch_sftp(parsed_url)
-    
-    # 5. FTPS (Secure FTP)
-    if scheme == "ftps":
-        return fetch_sftp(parsed_url)
-    
-    # 6. File
-    if scheme == "file":
-        return fetch_local_file(parsed_url.path)
-    
-    # Handle unknown schemes
-    logger.warning(f"Unsupported URL scheme: {scheme} for {url}")
-    return None
+    try:
+        # Parse the URL to determine the protocol
+        parsed_url = urlparse(url)
+        scheme = parsed_url.scheme.lower() if parsed_url.scheme else ""
+        
+        # Handle URLs in the specified order: no scheme, http, https, ftp, ftps, file
+        
+        # 1. No scheme - try to determine if it's a local file or assume http
+        if not scheme:
+            logger.info(f"No scheme specified for {url}, attempting to determine source type")
+            if os.path.exists(url):
+                logger.info(f"URL {url} exists as a local file, treating as file")
+                return fetch_local_file(url)
+            else:
+                # Try to prepend http:// and fetch
+                logger.info(f"URL {url} doesn't exist locally, treating as http URL")
+                return fetch_http(f"http://{url}")
+        
+        # 2. HTTP
+        if scheme == "http":
+            return fetch_http(url)
+        
+        # 3. HTTPS
+        if scheme == "https":
+            return fetch_http(url, verify=True)
+        
+        # 4. FTP
+        if scheme == "ftp":
+            return fetch_sftp(parsed_url)
+        
+        # 5. FTPS
+        if scheme == "ftps":
+            return fetch_sftp(parsed_url)
+        
+        # 6. File
+        if scheme == "file":
+            return fetch_local_file(parsed_url.path)
+        
+        # If we get here, it's an unsupported protocol
+        logger.warning(f"Unsupported protocol: {scheme}")
+        return None
+    except Exception as e:
+        logger.warning(f"Error fetching {url}: {str(e)}")
+        return None
 
 def fetch_local_file(path):
     """Fetch content from a local file.
@@ -78,22 +82,10 @@ def fetch_local_file(path):
         str: File content or None if failed
     """
     try:
-        # Handle 'file://' prefix if present
-        if path.startswith("file://"):
-            path = path[7:]
-        
-        # Check if file exists
-        if not os.path.isfile(path):
-            logger.error(f"Local file not found: {path}")
-            return None
-        
-        # Read file content
-        with open(path, 'rb') as f:
-            content = f.read()
-        logger.info(f"Successfully fetched local file: {path}")
-        return content
+        with open(path, 'r', encoding='utf-8') as f:
+            return f.read()
     except Exception as e:
-        logger.error(f"Error fetching local file {path}: {str(e)}")
+        logger.warning(f"File error: {str(e)}")
         return None
 
 def fetch_sftp(parsed_url):
@@ -134,53 +126,35 @@ def fetch_sftp(parsed_url):
         transport.close()
         
         # Read content from temporary file
-        # Download the file
-        try:
-            with open(temp_path, 'wb') as f:
-                ftp.retrbinary(f'RETR {filename}', f.write)
-            logger.info(f"Downloaded file: {filename}")
-        except Exception as e:
-            logger.error(f"Error downloading file {filename}: {str(e)}")
-            ftp.quit()
-            os.unlink(temp_path)
-            return None
-        
-        ftp.quit()
-        
-        # Read the downloaded file
         with open(temp_path, 'rb') as f:
             content = f.read()
         
         # Clean up temporary file
         os.unlink(temp_path)
         
-        protocol = "FTPS" if secure else "FTP"
-        logger.info(f"Successfully fetched {protocol} file: {parsed_url.geturl()}")
+        logger.info(f"Successfully fetched SFTP file: {parsed_url.geturl()}")
         return content
     except Exception as e:
-        protocol = "FTPS" if secure else "FTP"
-        logger.error(f"Error fetching {protocol} file {parsed_url.geturl()}: {str(e)}")
+        logger.error(f"Error fetching SFTP file {parsed_url.geturl()}: {str(e)}")
         return None
 
-def fetch_http(url):
-    """Fetch content from an HTTP/HTTPS URL.
+def fetch_http(url, verify=False):
+    """Fetch content from HTTP/HTTPS URL.
     
     Args:
         url (str): URL to fetch
+        verify (bool): Whether to verify SSL certificate (default: False)
         
     Returns:
         str: HTML content or None if failed
     """
     try:
-        headers = {
-            "User-Agent": "FedLoad Monitor/1.0"
-        }
-        response = requests.get(url, headers=headers, timeout=10)
+        response = requests.get(url, verify=verify)
         response.raise_for_status()
         logger.info(f"Successfully fetched HTTP URL: {url}")
-        return response.content
-    except Exception as e:
-        logger.error(f"Error fetching HTTP URL {url}: {str(e)}")
+        return response.text
+    except requests.exceptions.RequestException as e:
+        logger.warning(f"HTTP error: {str(e)}")
         return None
 
 def extract_text(html, method="trafilatura"):
