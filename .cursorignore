@@ -1,0 +1,98 @@
+# Cursor IDE Ignore File
+# Optimized for performance and focus - excludes files that don't need AI analysis
+
+# Log files
+logs/
+*.log
+*.log.*
+
+# Python bytecode and cache (not relevant for analysis)
+__pycache__/
+*.py[cod]
+*$py.class
+.mypy_cache/
+.pytest_cache/
+
+# Virtual environments (large, not project code)
+.venv/
+venv/
+ENV/
+env/
+
+# Distribution and packaging (generated files)
+dist/
+build/
+*.egg-info/
+*.whl
+
+# Testing artifacts (generated)
+.coverage
+htmlcov/
+.tox/
+coverage.xml
+*.cover
+
+# IDE and editor files (not project content)
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS specific files (not relevant)
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker files (infrastructure, not core logic)
+.dockerignore
+docker-compose.override.yml
+
+# Temporary and backup files (noise)
+*.tmp
+*.temp
+*.bak
+temp/
+tmp/
+*~
+
+# Large data files (performance impact)
+*.csv
+*.xlsx
+*.pdf
+*.zip
+*.tar.gz
+
+# Environment and secrets (security)
+.env
+.env.local
+.env.*.local
+
+# Development artifacts (not source)
+.bandit
+.safety
+bandit-report.json
+safety-report.json
+
+# Git metadata (not project code)
+.git/
+.gitignore
+
+# Node.js (if any)
+node_modules/
+npm-debug.log*
+
+# Large model files (if any)
+*.model
+*.pkl
+*.joblib
+
+# Compiled extensions
+*.so
+*.dylib
+*.dll
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
