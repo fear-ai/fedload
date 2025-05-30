@@ -12,6 +12,28 @@ FedLoad addresses the need for automated monitoring and analysis of US Federal R
 
 *Note: User personas and their specific needs require validation through user research and feedback.*
 
+### User Journey Map
+```mermaid
+journey
+    title Financial Analyst User Journey
+    section Discovery
+      Learn about FedLoad: 3: Analyst
+      Evaluate features: 4: Analyst
+      Compare alternatives: 2: Analyst
+    section Onboarding
+      Install system: 3: Analyst
+      Configure monitoring: 4: Analyst
+      Set up alerts: 5: Analyst
+    section Daily Use
+      Check reports: 5: Analyst
+      Query API: 4: Analyst
+      Share insights: 5: Analyst
+    section Value Realization
+      Save time: 5: Analyst
+      Discover patterns: 4: Analyst
+      Improve analysis: 5: Analyst
+```
+
 ## 3. Market Need
 - No lightweight, open-source tool focused on comprehensive monitoring of all 12 district banks and key FED/FRB sites
 - Need for automated change detection, entity extraction, and reporting for regulatory, research, and news purposes
@@ -43,6 +65,41 @@ FedLoad addresses the need for automated monitoring and analysis of US Federal R
 - **Insight Generation**: Discovery of patterns or changes users wouldn't find manually
 - **Integration Success**: Adoption in existing workflows and tools
 - **Knowledge Sharing**: Use in research, journalism, or policy analysis
+
+### Value Proposition Canvas
+```mermaid
+graph LR
+    subgraph "User Pains"
+        P1[Manual monitoring is time-consuming]
+        P2[Missing important Fed announcements]
+        P3[No systematic entity tracking]
+        P4[Expensive commercial alternatives]
+    end
+    
+    subgraph "FedLoad Value"
+        V1[Automated 24/7 monitoring]
+        V2[Real-time change detection]
+        V3[Entity extraction & analysis]
+        V4[Open-source & cost-effective]
+    end
+    
+    subgraph "User Gains"
+        G1[Time savings]
+        G2[Complete coverage]
+        G3[Actionable insights]
+        G4[Integration flexibility]
+    end
+    
+    P1 --> V1
+    P2 --> V2
+    P3 --> V3
+    P4 --> V4
+    
+    V1 --> G1
+    V2 --> G2
+    V3 --> G3
+    V4 --> G4
+```
 
 ## 6. Stakeholders
 - **Project maintainers**: Development and maintenance responsibility

@@ -6,6 +6,43 @@ A lightweight system to monitor US Federal Reserve websites for content changes,
 
 FedLoad monitors all 12 Federal Reserve district banks plus key FED/FRB `.gov` sites, detecting content changes and generating comprehensive reports. The system is designed for researchers, analysts, and organizations tracking Federal Reserve communications and policy changes.
 
+### How FedLoad Works
+```mermaid
+flowchart LR
+    subgraph "Federal Reserve Sites"
+        FED1[Federal Reserve Board]
+        FED2[NY Fed]
+        FED3[Boston Fed]
+        FED4[12 District Banks...]
+    end
+    
+    subgraph "FedLoad System"
+        Monitor[Automated Monitoring]
+        Detect[Change Detection]
+        Extract[Entity Extraction]
+        Report[Report Generation]
+    end
+    
+    subgraph "Outputs"
+        API[REST API]
+        Reports[Daily/Weekly Reports]
+        Alerts[Change Alerts]
+    end
+    
+    FED1 --> Monitor
+    FED2 --> Monitor
+    FED3 --> Monitor
+    FED4 --> Monitor
+    
+    Monitor --> Detect
+    Detect --> Extract
+    Extract --> Report
+    
+    Report --> API
+    Report --> Reports
+    Report --> Alerts
+```
+
 ### Key Features
 - **Automated Monitoring**: Tracks all 12 district banks + key Federal Reserve websites
 - **Change Detection**: Advanced hash-based content change detection with configurable algorithms

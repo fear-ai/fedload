@@ -3,6 +3,71 @@
 ## 1. System Overview
 FedLoad is a distributed monitoring system designed to track content changes across US Federal Reserve websites, extract entities, and generate reports. The architecture emphasizes modularity, scalability, and maintainability.
 
+### 1.1 High-Level System Architecture
+```mermaid
+graph TB
+    subgraph "External Sources"
+        FED[Federal Reserve Websites]
+        DIST[District Bank Sites]
+    end
+    
+    subgraph "FedLoad System"
+        subgraph "Core Components"
+            ME[Monitoring Engine]
+            SP[Site Processor]
+            EP[Entity Processor]
+            RG[Report Generator]
+        end
+        
+        subgraph "Infrastructure"
+            CM[Configuration Manager]
+            DS[Data Store]
+            AG[API Gateway]
+            LS[Logging System]
+            NS[Notification System]
+        end
+        
+        subgraph "Knowledge Base"
+            EKB[Entity Knowledge Base]
+            FKB[Fed Terms Database]
+        end
+    end
+    
+    subgraph "External Interfaces"
+        API[REST API Clients]
+        WEB[Web Dashboard]
+        ALERTS[Alert Systems]
+    end
+    
+    %% Data Flow
+    FED --> SP
+    DIST --> SP
+    CM --> ME
+    ME --> SP
+    SP --> EP
+    SP --> DS
+    EP --> EKB
+    EP --> DS
+    DS --> RG
+    RG --> NS
+    
+    %% API Flow
+    API --> AG
+    AG --> DS
+    AG --> ME
+    
+    %% Notifications
+    NS --> ALERTS
+    RG --> WEB
+    
+    %% Logging
+    ME --> LS
+    SP --> LS
+    EP --> LS
+    RG --> LS
+    AG --> LS
+```
+
 ## 2. Core Components and Interactions
 
 ### 2.1 Monitoring Engine
@@ -106,28 +171,80 @@ FedLoad is a distributed monitoring system designed to track content changes acr
 ## 3. Data Flow Architecture
 
 ### 3.1 Monitoring Workflow
-```
-Configuration Manager → Monitoring Engine → Site Processor → Entity Processor → Data Store
-                                    ↓                              ↓
-                              Logging System                Report Generator
-                                                                   ↓
-                                                          Notification System
+```mermaid
+sequenceDiagram
+    participant CM as Configuration Manager
+    participant ME as Monitoring Engine
+    participant SP as Site Processor
+    participant EP as Entity Processor
+    participant DS as Data Store
+    participant RG as Report Generator
+    participant NS as Notification System
+    participant LS as Logging System
+    
+    CM->>ME: Load Configuration
+    ME->>SP: Schedule Site Check
+    SP->>SP: Fetch Content
+    SP->>DS: Store Content Hash
+    
+    alt Content Changed
+        SP->>EP: Send Changed Content
+        EP->>DS: Store Entities
+        EP->>RG: Trigger Report
+        RG->>DS: Query Change Data
+        RG->>NS: Send Notifications
+    end
+    
+    SP->>LS: Log Status
+    EP->>LS: Log Processing
+    RG->>LS: Log Generation
 ```
 
 ### 3.2 API Request Flow
-```
-External Client → API Gateway → Data Store → Response Processing → External Client
-                      ↓
-               Authentication/Authorization
-                      ↓
-                Logging System
+```mermaid
+flowchart TD
+    Client[External Client] --> AG[API Gateway]
+    AG --> Auth{Authentication}
+    Auth -->|Valid| Rate{Rate Limit Check}
+    Auth -->|Invalid| Reject[Reject Request]
+    Rate -->|OK| Route{Route Request}
+    Rate -->|Exceeded| Limit[Rate Limit Error]
+    
+    Route -->|Data Query| DS[Data Store]
+    Route -->|Status Check| ME[Monitoring Engine]
+    Route -->|Trigger Action| ME
+    
+    DS --> Process[Process Response]
+    ME --> Process
+    Process --> Log[Log Request]
+    Log --> Response[Send Response]
+    Response --> Client
 ```
 
 ### 3.3 Error Handling Flow
-```
-Any Component → Error Handler → Logging System → Monitoring Engine → Recovery Actions
-                     ↓
-            Notification System (for critical errors)
+```mermaid
+flowchart TD
+    Error[Error Occurs] --> EH[Error Handler]
+    EH --> Classify{Classify Error}
+    
+    Classify -->|Network| Network[Network Error Handler]
+    Classify -->|Parsing| Parse[Parse Error Handler]
+    Classify -->|Config| Config[Config Error Handler]
+    Classify -->|Critical| Critical[Critical Error Handler]
+    
+    Network --> Retry{Retry Logic}
+    Parse --> Skip[Skip Content]
+    Config --> Validate[Validate Config]
+    Critical --> Alert[Send Alert]
+    
+    Retry -->|Success| Continue[Continue Processing]
+    Retry -->|Failed| Log[Log Failure]
+    Skip --> Log
+    Validate --> Log
+    Alert --> Log
+    
+    Log --> LS[Logging System]
+    Alert --> NS[Notification System]
 ```
 
 ## 4. Integration Patterns

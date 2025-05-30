@@ -126,6 +126,52 @@ utils/
 
 ## 🎯 Next Session Priorities
 
+### Priority Matrix
+```mermaid
+quadrantChart
+    title Task Priority Matrix
+    x-axis Low Impact --> High Impact
+    y-axis Low Effort --> High Effort
+    
+    quadrant-1 Quick Wins
+    quadrant-2 Major Projects
+    quadrant-3 Fill-ins
+    quadrant-4 Thankless Tasks
+    
+    Split scheduler.py: [0.9, 0.7]
+    Add type hints: [0.6, 0.3]
+    Config validation: [0.8, 0.4]
+    Data rotation: [0.7, 0.5]
+    Test coverage: [0.5, 0.6]
+    Error handling: [0.8, 0.8]
+    Async processing: [0.9, 0.9]
+    Database migration: [0.8, 0.9]
+```
+
+### Development Timeline
+```mermaid
+gantt
+    title FedLoad Development Roadmap
+    dateFormat  YYYY-MM-DD
+    section High Priority
+    Split scheduler.py           :active, scheduler, 2024-01-15, 7d
+    Config validation           :config, after scheduler, 3d
+    Data rotation              :data, after config, 5d
+    
+    section Code Quality
+    Add type hints             :types, 2024-01-15, 14d
+    Improve test coverage      :tests, after types, 7d
+    
+    section Architecture
+    Error handling             :error, after data, 10d
+    Async processing           :async, after error, 14d
+    Database migration         :db, after async, 21d
+    
+    section Documentation
+    API documentation          :api-docs, 2024-01-15, 5d
+    Troubleshooting guide      :trouble, after api-docs, 3d
+```
+
 ### Immediate Actions (Next 1-2 Sessions)
 1. **Split scheduler.py** - Highest impact, improves maintainability
 2. **Add configuration validation** - Prevents runtime errors

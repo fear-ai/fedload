@@ -686,3 +686,65 @@ docker-compose up --build
     ]
   }
 } 
+```
+
+## 🔄 Development Workflow
+
+### Development Process Flow
+```mermaid
+flowchart TD
+    Start[Start Development] --> Branch[Create Feature Branch]
+    Branch --> Setup[Setup Environment]
+    Setup --> Code[Write Code]
+    Code --> Test[Run Tests Locally]
+    Test --> Pass{Tests Pass?}
+    Pass -->|No| Debug[Debug Issues]
+    Debug --> Code
+    Pass -->|Yes| Commit[Commit Changes]
+    Commit --> Push[Push to GitHub]
+    Push --> PR[Create Pull Request]
+    PR --> Review[Code Review]
+    Review --> Approve{Approved?}
+    Approve -->|No| Address[Address Feedback]
+    Address --> Code
+    Approve -->|Yes| Merge[Merge to Develop]
+    Merge --> Deploy[Deploy to Staging]
+    Deploy --> Validate[Validate Deployment]
+    Validate --> Done[Complete]
+```
+
+### Debugging Decision Tree
+```mermaid
+flowchart TD
+    Issue[Issue Reported] --> Type{Issue Type?}
+    
+    Type -->|Test Failure| TestDebug[Check Test Logs]
+    Type -->|Runtime Error| RuntimeDebug[Check Application Logs]
+    Type -->|Performance| PerfDebug[Check Resource Usage]
+    Type -->|Configuration| ConfigDebug[Validate Configuration]
+    
+    TestDebug --> TestEnv{Environment Match?}
+    TestEnv -->|No| FixEnv[Fix Environment]
+    TestEnv -->|Yes| TestCode[Review Test Code]
+    
+    RuntimeDebug --> LogLevel[Increase Log Level]
+    LogLevel --> Reproduce[Reproduce Issue]
+    
+    PerfDebug --> Monitor[Check Monitoring]
+    Monitor --> Profile[Profile Application]
+    
+    ConfigDebug --> Schema[Validate Schema]
+    Schema --> Defaults[Check Defaults]
+    
+    FixEnv --> Retest[Re-run Tests]
+    TestCode --> Retest
+    Reproduce --> Fix[Implement Fix]
+    Profile --> Optimize[Optimize Code]
+    Defaults --> Update[Update Config]
+    
+    Retest --> Verify[Verify Fix]
+    Fix --> Verify
+    Optimize --> Verify
+    Update --> Verify
+    Verify --> Complete[Issue Resolved]
+``` 

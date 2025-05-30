@@ -345,4 +345,86 @@ docker run --rm -v fedload-data:/data -v $(pwd):/backup alpine tar xzf /backup/f
 cp config.json config.json.bak
 cp fed_entities.json fed_entities.json.bak
 cp tracked_sites.json tracked_sites.json.bak
+```
+
+## 🏗️ Architecture Overview
+
+### Container Architecture
+```mermaid
+graph TB
+    subgraph "Production Environment"
+        subgraph "Load Balancer"
+            LB[Nginx/HAProxy]
+        end
+        
+        subgraph "Application Tier"
+            API1[FedLoad API Container 1]
+            API2[FedLoad API Container 2]
+            SCHED[Scheduler Container]
+        end
+        
+        subgraph "Data Tier"
+            VOL[Persistent Volumes]
+            LOGS[Log Storage]
+        end
+        
+        subgraph "Monitoring"
+            MON[Monitoring Stack]
+            ALERTS[Alert Manager]
+        end
+    end
+    
+    subgraph "External"
+        USERS[Users/API Clients]
+        FED[Federal Reserve Sites]
+    end
+    
+    USERS --> LB
+    LB --> API1
+    LB --> API2
+    
+    API1 --> VOL
+    API2 --> VOL
+    SCHED --> VOL
+    SCHED --> FED
+    
+    API1 --> LOGS
+    API2 --> LOGS
+    SCHED --> LOGS
+    
+    LOGS --> MON
+    MON --> ALERTS
+```
+
+### Development vs Production Deployment
+```mermaid
+flowchart TD
+    subgraph "Development"
+        DEV_COMPOSE[docker-compose.dev.yml]
+        DEV_API[Single API Container]
+        DEV_SCHED[Single Scheduler]
+        DEV_VOL[Local Volumes]
+    end
+    
+    subgraph "Production"
+        PROD_COMPOSE[docker-compose.prod.yml]
+        PROD_LB[Load Balancer]
+        PROD_API[Multiple API Containers]
+        PROD_SCHED[Scheduler Container]
+        PROD_VOL[Persistent Storage]
+        PROD_MON[Monitoring Stack]
+    end
+    
+    DEV_COMPOSE --> DEV_API
+    DEV_COMPOSE --> DEV_SCHED
+    DEV_API --> DEV_VOL
+    DEV_SCHED --> DEV_VOL
+    
+    PROD_COMPOSE --> PROD_LB
+    PROD_COMPOSE --> PROD_API
+    PROD_COMPOSE --> PROD_SCHED
+    PROD_COMPOSE --> PROD_MON
+    PROD_LB --> PROD_API
+    PROD_API --> PROD_VOL
+    PROD_SCHED --> PROD_VOL
 ``` 

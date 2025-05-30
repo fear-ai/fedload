@@ -1,7 +1,3 @@
-# Project Rules
-
-- Skip congratulatory, summary, or non-technical commentary in all assistant responses. Only provide technical, actionable, or directly relevant content.
-
 # FedLoad Project Rules & Best Practices
 
 ## 1. Code Quality
