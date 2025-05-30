@@ -185,9 +185,9 @@ def extract_text(html, method="trafilatura"):
             article.set_html(html)
             article.parse()
             return article.text
-        except Exception:
+        except Exception as e:
             # Fall back to other methods
-            pass
+            logger.debug(f"Newspaper3k extraction failed: {str(e)}")
     
     # Method 3: html2text (works well for most pages)
     if method == "html2text" or method in ["trafilatura", "newspaper"]:
@@ -200,9 +200,9 @@ def extract_text(html, method="trafilatura"):
             h.single_line_break = True
             h.ignore_emphasis = True
             return h.handle(html.decode('utf-8') if isinstance(html, bytes) else html)
-        except Exception:
+        except Exception as e:
             # Fall back to BeautifulSoup
-            pass
+            logger.debug(f"html2text extraction failed: {str(e)}")
     
     # Method 4: BeautifulSoup (fallback method)
     soup = BeautifulSoup(html, 'html.parser')
@@ -308,8 +308,8 @@ def detect_content_type(content, url):
         if all(c < 128 for c in content[:100] if c not in (9, 10, 13)):  # Ignore tab, LF, CR
             return "text"
         
-    except Exception:
-        pass
+    except Exception as e:
+        logger.debug(f"Content type detection failed: {str(e)}")
     
     # Default to HTML for web URLs
     if url and url.startswith(('http://', 'https://')):

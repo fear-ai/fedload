@@ -1,5 +1,6 @@
 # main.py
 
+import uvicorn
 from fastapi import FastAPI, Query, HTTPException, Response
 from fastapi.responses import RedirectResponse
 from contextlib import asynccontextmanager
