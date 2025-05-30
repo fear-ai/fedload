@@ -1,6 +1,18 @@
-# FedLoad Development Instructions
+# FedLoad Development Guide
 
-This document provides comprehensive guidelines for future editing and debugging sessions to ensure smooth, productive development.
+This document provides comprehensive development setup, environment configuration, debugging procedures, and troubleshooting guidelines for FedLoad contributors and maintainers.
+
+## 🎯 Purpose
+
+This guide is for developers who need to:
+- Set up the development environment
+- Understand the development workflow
+- Debug issues and troubleshoot problems
+- Follow best practices for code changes
+- Maintain code quality and testing standards
+
+**For project overview and user instructions, see README.md**  
+**For planned features and development roadmap, see TODO.md**
 
 ## 🔧 Development Workflow Rules
 
