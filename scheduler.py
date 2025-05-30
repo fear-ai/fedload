@@ -10,10 +10,29 @@ import hashlib
 import requests
 from bs4 import BeautifulSoup
 import re
+import logging
+from config_log import setup_logging
+from config_manager import ConfigManager
+
+# Configuration
+CONFIG_FILE = "config.json"
+
+# Setup logging and config
+config_manager = ConfigManager(CONFIG_FILE)
+logger = setup_logging(config_manager=config_manager)
+
+# Get configuration
+config = config_manager.config
+
+# Get monitoring configuration
+monitoring_config = config.get("monitoring", {})
+timeout_seconds = monitoring_config.get("timeout_seconds", 10)
+user_agent = monitoring_config.get("user_agent", "FedLoad Monitor/1.0")
+
+logger.info(f"Monitoring configuration: timeout_seconds={timeout_seconds}, user_agent={user_agent}")
 
 # File paths
 SITES_FILE = "tracked_sites.json"
-CONFIG_FILE = "config.json"
 LOG_FILE = "change_log.json"
 ENTITY_STORE = "entity_store.json"
 FED_ENTITIES_FILE = "fed_entities.json"
@@ -21,17 +40,17 @@ DAILY_REPORT = "daily_report.html"
 WEEKLY_SUMMARY = "weekly_summary.html"
 
 # Default values
-DEFAULT_CHECK_FREQUENCY = 30  # minutes
+DEFAULT_CHECK_FREQUENCY = config.get("monitoring", {}).get("check_frequency_minutes", 30)  # minutes
 
 # Load configuration
 try:
-    print(f"[{datetime.now().isoformat()}] Loading configuration from {CONFIG_FILE}...")
+    logger.info(f"Loading configuration from {CONFIG_FILE}...")
     with open(CONFIG_FILE, 'r') as f:
         config = json.load(f)
     
     # Get check frequency from config
     check_frequency = config.get("scheduling", {}).get("check_frequency_minutes", DEFAULT_CHECK_FREQUENCY)
-    print(f"[{datetime.now().isoformat()}] Check frequency set to {check_frequency} minutes")
+    logger.info(f"Check frequency set to {check_frequency} minutes")
     
     # Get report generation settings
     daily_report_config = config.get("scheduling", {}).get("report_generation", {}).get("daily_report", {})
@@ -43,12 +62,12 @@ try:
     weekly_summary_day = weekly_summary_config.get("day", "Monday")
     weekly_summary_time = weekly_summary_config.get("time", "06:00")
     
-    print(f"[{datetime.now().isoformat()}] Daily report generation: {'enabled' if daily_report_enabled else 'disabled'}, time: {daily_report_time}")
-    print(f"[{datetime.now().isoformat()}] Weekly summary generation: {'enabled' if weekly_summary_enabled else 'disabled'}, day: {weekly_summary_day}, time: {weekly_summary_time}")
+    logger.info(f"Daily report generation: {'enabled' if daily_report_enabled else 'disabled'}, time: {daily_report_time}")
+    logger.info(f"Weekly summary generation: {'enabled' if weekly_summary_enabled else 'disabled'}, day: {weekly_summary_day}, time: {weekly_summary_time}")
     
 except Exception as e:
-    print(f"[{datetime.now().isoformat()}] Error loading configuration: {str(e)}")
-    print(f"[{datetime.now().isoformat()}] Using default values")
+    logger.error(f"Error loading configuration: {str(e)}")
+    logger.warning(f"Using default values due to configuration error")
     check_frequency = DEFAULT_CHECK_FREQUENCY
     daily_report_enabled = True
     daily_report_time = "00:00"
@@ -59,14 +78,14 @@ except Exception as e:
 # Initialize NLP pipeline
 try:
     import spacy
-    print(f"[{datetime.now().isoformat()}] Loading spaCy model 'en_core_web_sm'...")
+    logger.info(f"Loading spaCy model 'en_core_web_sm'...")
     nlp = spacy.load("en_core_web_sm")
-    print(f"[{datetime.now().isoformat()}] spaCy model loaded successfully")
+    logger.info(f"spaCy model loaded successfully")
     spacy_available = True
 except Exception as e:
-    print(f"[{datetime.now().isoformat()}] ERROR: Could not load spaCy model: {str(e)}")
-    print(f"[{datetime.now().isoformat()}] SOLUTION: Please run 'python -m spacy download en_core_web_sm'")
-    print(f"[{datetime.now().isoformat()}] Continuing with limited functionality - entity recognition will be simplified")
+    logger.error(f"Could not load spaCy model: {str(e)}")
+    logger.warning("Please run 'python -m spacy download en_core_web_sm' to enable full functionality")
+    logger.warning("Continuing with limited functionality - entity recognition will be simplified")
     spacy_available = False
 
 # Graceful exit flag
@@ -79,10 +98,10 @@ def load_sites():
             data = json.load(f)
             # The tracked_sites.json file has a "sites" array of URL strings
             sites = data.get("sites", [])
-            print(f"[{datetime.now().isoformat()}] Loaded {len(sites)} sites to monitor")
+            logger.info(f"Loaded {len(sites)} sites to monitor")
             return sites
     except Exception as e:
-        print(f"[{datetime.now().isoformat()}] Error loading sites: {str(e)}")
+        logger.error(f"Error loading sites: {str(e)}")
         return []
 
 # Load entity store or create if not exists
@@ -95,12 +114,12 @@ def load_entity_store():
                 data["entities"] = {}
             return data
     except Exception as e:
-        print(f"[{datetime.now().isoformat()}] Creating new entity store (no existing file or error: {str(e)})")
+        logger.info(f"Creating new entity store (no existing file or error: {str(e)})")
         return {"entities": {}}
 
 # Save entity store
 def save_entity_store(entity_store):
-    with open(ENTITY_STORE, 'w') as f:
+    with open(ENTITY_STORE, 'w', encoding='utf-8', newline='') as f:
         json.dump(entity_store, f, indent=2)
 
 # Load change log or create if not exists
@@ -117,16 +136,16 @@ def load_fed_entities():
         with open(FED_ENTITIES_FILE, 'r') as f:
             return json.load(f)
     except Exception as e:
-        print(f"[{datetime.now().isoformat()}] Error loading Fed entities: {str(e)}")
+        logger.error(f"Error loading Fed entities: {str(e)}")
         return {"people": [], "organizations": [], "publications": [], "events": [], "topics": []}
 
 # Signal handler for graceful exit
 def signal_handler(sig, frame):
-    print(f"\n[{datetime.now().isoformat()}] Received shutdown signal. Saving data and stopping scheduler...")
+    logger.info("Received shutdown signal. Saving data and stopping scheduler...")
     exit_event.set()
     # Force exit after 10 seconds if graceful shutdown doesn't complete
     time.sleep(10)
-    print(f"[{datetime.now().isoformat()}] Forcing exit...")
+    logger.info("Forcing exit...")
     sys.exit(0)
 
 # Register signal handler
@@ -135,19 +154,35 @@ signal.signal(signal.SIGTERM, signal_handler)
 
 # Fetch content from a URL
 def fetch_url(url):
+    # TODO: Implement comprehensive URL security and resilience
+    # - Add domain/path blacklisting after repeated failures
+    # - Track failure counts per domain over time
+    # - Implement protection against DNS attacks and malicious redirects
+    # - Add OWASP URL validation and content sanitization
+    # - Implement rate limiting and backoff strategies
+    # - Add content size limits and timeout protections
+    
     try:
         from fetcher import fetch_page, extract_text, extract_main_content
-        print(f"[{datetime.now().isoformat()}] Fetching content from {url}")
+        logger.info(f"Fetching content from {url}")
         
         # Use the enhanced content extraction
         content_data = extract_main_content(url)
         if not content_data["text"]:
+            logger.warning(f"No content extracted from {url} - may indicate site issues")
             return None
             
         # Return the extracted text content
         return content_data["text"]
     except Exception as e:
-        print(f"[{datetime.now().isoformat()}] ERROR - Error fetching {url}: {str(e)}")
+        # Log error but don't exit program - continue with other sites
+        logger.error(f"Error fetching {url}: {str(e)}")
+        
+        # TODO: Track failure patterns and implement blacklisting
+        # - Count consecutive failures per domain
+        # - Blacklist domains after N failures over M days
+        # - Implement exponential backoff for failed domains
+        # - Alert on suspicious failure patterns (potential attacks)
         
         # Fall back to basic fetching if the enhanced fetcher fails
         try:
@@ -155,7 +190,7 @@ def fetch_url(url):
                 "User-Agent": config.get("monitoring", {}).get("user_agent", "FedLoad Monitor/1.0")
             }
             timeout = config.get("monitoring", {}).get("timeout_seconds", 30)  # Increased default timeout
-            print(f"[{datetime.now().isoformat()}] Using fallback fetcher with timeout={timeout}s")
+            logger.info(f"Using fallback fetcher with timeout={timeout}s")
             response = requests.get(url, headers=headers, timeout=timeout)
             response.raise_for_status()
             soup = BeautifulSoup(response.content, 'html.parser')
@@ -173,29 +208,44 @@ def fetch_url(url):
         except requests.exceptions.Timeout:
             timestamp = datetime.now().isoformat()
             error_msg = f"{timestamp} - ERROR - Error fetching HTTP URL {url}: Read timed out. (read timeout={timeout})"
-            print(error_msg)
+            logger.error(error_msg)
+            # Don't exit program - log error and continue
             return None
         except requests.exceptions.RequestException as re:
             timestamp = datetime.now().isoformat()
-            error_msg = f"{timestamp} - ERROR - Error with fallback fetching {url}: {str(re)}"
-            print(error_msg)
+            logger.error(f"Error with fallback fetching {url}: {str(re)}")
+            # Don't exit program - log error and continue
             return None
         except Exception as e:
             timestamp = datetime.now().isoformat()
-            error_msg = f"{timestamp} - ERROR - Unexpected error fetching {url}: {str(e)}"
-            print(error_msg)
+            logger.error(f"Unexpected error fetching {url}: {str(e)}")
+            # Don't exit program - log error and continue
             return None
 
 # Calculate hash of content
 def hash_content(content):
-    algorithm = config.get("monitoring", {}).get("content_hash_algorithm", "sha256")
-    if algorithm == "sha256":
-        return hashlib.sha256(content.encode()).hexdigest()
-    elif algorithm == "md5":
-        return hashlib.md5(content.encode(), usedforsecurity=False).hexdigest()
-    else:
-        # Default to sha256
-        return hashlib.sha256(content.encode()).hexdigest()
+    """Calculate hash of content using configured algorithm and optimizations."""
+    try:
+        # Load monitoring configuration
+        monitoring_config = config.get("monitoring", {})
+        algorithm = monitoring_config.get("content_hash_algorithm", "md5")
+        initial_bytes = monitoring_config.get("hash_check_initial_bytes", 512)
+        max_size_mb = monitoring_config.get("max_content_size_mb", 50)
+        
+        # Import the enhanced hasher
+        from hasher import hash_content as enhanced_hash_content
+        return enhanced_hash_content(content, algorithm=algorithm, 
+                                   initial_bytes=initial_bytes, 
+                                   max_size_mb=max_size_mb)
+    except Exception as e:
+        logger.warning(f"Error with enhanced hashing, falling back to simple hash: {e}")
+        # Fallback to simple hashing
+        algorithm = config.get("monitoring", {}).get("content_hash_algorithm", "md5")
+        if algorithm == "md5":
+            return hashlib.md5(content.encode(), usedforsecurity=False).hexdigest()
+        else:
+            # Default to sha256 for fallback
+            return hashlib.sha256(content.encode()).hexdigest()
 
 # Simple entity extraction if spaCy is not available
 def extract_entities_simple(text):
@@ -206,6 +256,22 @@ def extract_entities_simple(text):
 
 # Check a site for changes
 def check_site(url, entity_store):
+    # Load configuration for entity extraction
+    try:
+        with open(CONFIG_FILE, 'r') as f:
+            config = json.load(f)
+            entity_config = config.get('entity_recognition', {})
+            ner_enabled = entity_config.get('enabled', False)
+            min_word_length = entity_config.get('min_word_length', 3)
+            ignore_common_words = entity_config.get('ignore_common_words', True)
+            typo_correction = entity_config.get('typo_correction', True)
+    except Exception as e:
+        logger.error(f"Error loading entity config: {e}")
+        ner_enabled = False
+        min_word_length = 3
+        ignore_common_words = True
+        typo_correction = True
+
     # Ensure entity_store has the proper structure
     if "entities" not in entity_store:
         entity_store["entities"] = {}
@@ -224,27 +290,31 @@ def check_site(url, entity_store):
     # Check if content has changed
     changed = old_hash != new_hash
     
-    # Process text with NLP if changed
+    # Process text with NLP if changed and NER is enabled
     entities = []
     fed_entities = []
     if changed:
-        if spacy_available:
-            doc = nlp(content)
+        if ner_enabled:
+            if spacy_available:
+                doc = nlp(content)
+                
+                # Extract basic entities (title-case words)
+                for sent in doc.sents:
+                    for token in sent:
+                        if token.is_alpha and token.is_title and len(token.text) > 1:
+                            entities.append(token.text)
+                
+                # Remove duplicates
+                entities = list(set(entities))
+            else:
+                # Use simple entity extraction
+                entities = extract_entities_simple(content)
             
-            # Extract basic entities (title-case words)
-            for sent in doc.sents:
-                for token in sent:
-                    if token.is_alpha and token.is_title and len(token.text) > 1:
-                        entities.append(token.text)
-            
-            # Remove duplicates
-            entities = list(set(entities))
+            # Extract Fed-specific entities
+            fed_entities = extract_fed_entities(content)
+            logger.info(f"NER enabled: Found {len(entities)} basic entities and {len(fed_entities)} Fed-specific entities")
         else:
-            # Use simple entity extraction
-            entities = extract_entities_simple(content)
-        
-        # Extract Fed-specific entities
-        fed_entities = extract_fed_entities(content)
+            logger.info("NER disabled: Skipping entity extraction")
         
         # Store hash and entities
         if url not in entity_store["entities"]:
@@ -312,7 +382,7 @@ def extract_fed_entities(text):
 
 # Check all sites
 def check_all_sites():
-    print(f"[{datetime.now().isoformat()}] Starting site checks...")
+    logger.info("Starting site checks...")
     sites = load_sites()
     entity_store = load_entity_store()
     log_data = load_change_log()
@@ -331,13 +401,13 @@ def check_all_sites():
         
         try:
             sites_checked += 1
-            print(f"[{datetime.now().isoformat()}] Checking {url}")
+            logger.info(f"Checking {url}")
             changed, old_hash, new_hash, matched_entities, fed_entities_found = check_site(url, entity_store)
             
             if changed:
                 changes_detected += 1
-                print(f"[{datetime.now().isoformat()}] Changes detected on {url}")
-                print(f"[{datetime.now().isoformat()}] Found {len(matched_entities)} basic entities and {len(fed_entities_found)} Fed-specific entities")
+                logger.info(f"Changes detected on {url}")
+                logger.info(f"Found {len(matched_entities)} basic entities and {len(fed_entities_found)} Fed-specific entities")
                 
                 # Log the change
                 log_entry = {
@@ -356,7 +426,7 @@ def check_all_sites():
                 log_data.append(log_entry)
         except Exception as e:
             sites_errored += 1
-            print(f"[{datetime.now().isoformat()}] ERROR checking {url}: {str(e)}")
+            logger.error(f"Error checking {url}: {str(e)}")
             # Log the error
             log_entry = {
                 "url": url,
@@ -371,19 +441,19 @@ def check_all_sites():
     save_entity_store(entity_store)
     
     # Save log
-    with open(LOG_FILE, 'w') as f:
+    with open(LOG_FILE, 'w', encoding='utf-8', newline='') as f:
         json.dump(log_data, f, indent=2)
     
-    print(f"[{datetime.now().isoformat()}] Site check summary:")
-    print(f"[{datetime.now().isoformat()}] - Total sites checked: {sites_checked}")
-    print(f"[{datetime.now().isoformat()}] - Sites with changes: {changes_detected}")
-    print(f"[{datetime.now().isoformat()}] - Sites with errors: {sites_errored}")
-    print(f"[{datetime.now().isoformat()}] Completed site checks.")
+    logger.info("Site check summary:")
+    logger.info(f"- Total sites checked: {sites_checked}")
+    logger.info(f"- Sites with changes: {changes_detected}")
+    logger.info(f"- Sites with errors: {sites_errored}")
+    logger.info("Completed site checks.")
     return changes_detected
 
 # Generate daily report
 def generate_daily_report():
-    print(f"[{datetime.now().isoformat()}] Generating daily report...")
+    logger.info("Generating daily report...")
     log_data = load_change_log()
     entity_store = load_entity_store()
     
@@ -415,49 +485,52 @@ def generate_daily_report():
     org_sorted = sorted(org_mentions.items(), key=lambda x: x[1], reverse=True)
     pub_sorted = sorted(pub_mentions.items(), key=lambda x: x[1], reverse=True)
     
-    # Generate HTML report
-    try:
-        with open(DAILY_REPORT, 'r') as f:
-            template = f.read()
-    except:
-        # Create a simple template if file doesn't exist
-        template = """<!DOCTYPE html>
+    # Generate HTML report with LF line endings
+    template = """<!DOCTYPE html>
 <html>
 <head>
     <title>FED Website Changes Report</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
-        h1, h2 { color: #00395d; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        .section { margin-bottom: 30px; border-bottom: 1px solid #ddd; padding-bottom: 20px; }
-        ul { padding-left: 20px; }
-        li { margin-bottom: 8px; }
-        footer { margin-top: 40px; font-size: 0.8em; color: #666; border-top: 1px solid #ddd; padding-top: 20px; }
+        body { font-family: Arial, sans-serif; margin: 20px; color: #333; }
+        h1, h2, h3 { color: #00395b; }
+        table { border-collapse: collapse; width: 100%; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f4f4f4; }
+        tr:nth-child(even) { background-color: #f9f9f9; }
+        .change-type { font-weight: bold; }
+        .entity-list { margin-left: 20px; }
+        .entity-item { margin-bottom: 5px; }
+        .entity-count { color: #666; font-size: 0.9em; }
+        .timestamp { color: #666; font-size: 0.9em; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>FED Website Changes Report</h1>
-        
-        <div class="section">
-            <h2>Recent Changes</h2>
-            <!-- CHANGES_CONTENT -->
-        </div>
-        
-        <div class="section">
-            <h2>FED Officials Mentioned</h2>
-            <!-- OFFICIALS_CONTENT -->
-        </div>
-        
-        <div class="section">
-            <h2>FED Publications Mentioned</h2>
-            <!-- PUBLICATIONS_CONTENT -->
-        </div>
-        
-        <footer>
-            <p>Generated by FedLoad on <!-- GENERATION_TIME --></p>
-            <p><a href="weekly_summary.html">View Weekly Summary</a></p>
-        </footer>
+    <h1>FED Website Changes Report</h1>
+    <p class="timestamp">Generated: <!-- GENERATION_TIME --></p>
+    
+    <h2>Changes Detected</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>URL</th>
+                <th>Change Type</th>
+                <th>Entities Found</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- CHANGES_TABLE -->
+        </tbody>
+    </table>
+    
+    <h2>Fed-Specific Entities</h2>
+    <div class="entity-list">
+        <h3>People</h3>
+        <!-- PEOPLE_LIST -->
+        <h3>Organizations</h3>
+        <!-- ORG_LIST -->
+        <h3>Publications</h3>
+        <!-- PUB_LIST -->
     </div>
 </body>
 </html>"""
@@ -497,17 +570,17 @@ def generate_daily_report():
     template = template.replace("<!-- GENERATION_TIME -->", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     
     # Write the report
-    with open(DAILY_REPORT, 'w') as f:
+    with open(DAILY_REPORT, 'w', encoding='utf-8', newline='') as f:
         f.write(template)
     
-    print(f"[{datetime.now().isoformat()}] Daily report generated successfully.")
+    logger.info("Daily report generated successfully.")
 
 # Generate weekly summary
 def generate_weekly_summary():
     if not weekly_summary_enabled:
         return
     
-    print(f"[{datetime.now().isoformat()}] Generating weekly summary...")
+    logger.info("Generating weekly summary...")
     log_data = load_change_log()
     entity_store = load_entity_store()
     
@@ -671,15 +744,15 @@ def generate_weekly_summary():
     template = template.replace("<!-- GENERATION_TIME -->", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     
     # Write the report
-    with open(WEEKLY_SUMMARY, 'w') as f:
+    with open(WEEKLY_SUMMARY, 'w', encoding='utf-8', newline='') as f:
         f.write(template)
     
-    print(f"[{datetime.now().isoformat()}] Weekly summary generated successfully.")
+    logger.info("Weekly summary generated successfully.")
 
 # Main function
 def main():
-    print(f"[{datetime.now().isoformat()}] ====== FedLoad Scheduler Started ======")
-    print(f"[{datetime.now().isoformat()}] Press Ctrl+C to exit gracefully")
+    logger.info("====== FedLoad Scheduler Started ======")
+    logger.info("Press Ctrl+C to exit gracefully")
     
     try:
         # Initial check
@@ -692,7 +765,7 @@ def main():
         if daily_report_enabled:
             hour, minute = map(int, daily_report_time.split(':'))
             schedule.every().day.at(daily_report_time).do(generate_daily_report)
-            print(f"[{datetime.now().isoformat()}] Scheduled daily report at {daily_report_time}")
+            logger.info(f"Scheduled daily report at {daily_report_time}")
         
         # Schedule weekly summary generation
         if weekly_summary_enabled:
@@ -712,7 +785,7 @@ def main():
             elif weekly_summary_day.lower() == "sunday":
                 schedule.every().sunday.at(weekly_summary_time).do(generate_weekly_summary)
             
-            print(f"[{datetime.now().isoformat()}] Scheduled weekly summary on {weekly_summary_day} at {weekly_summary_time}")
+            logger.info(f"Scheduled weekly summary on {weekly_summary_day} at {weekly_summary_time}")
         
         # Run the scheduler
         while not exit_event.is_set():
@@ -725,19 +798,19 @@ def main():
         
         # Generate final report before exit
         generate_daily_report()
-        print(f"[{datetime.now().isoformat()}] Final daily report generated")
+        logger.info("Final daily report generated")
         
         if weekly_summary_enabled:
             generate_weekly_summary()
-            print(f"[{datetime.now().isoformat()}] Final weekly summary generated")
+            logger.info("Final weekly summary generated")
         
-        print(f"[{datetime.now().isoformat()}] ====== FedLoad Scheduler Stopped ======")
+        logger.info("====== FedLoad Scheduler Stopped ======")
         
     except KeyboardInterrupt:
-        print(f"\n[{datetime.now().isoformat()}] Received keyboard interrupt. Shutting down...")
+        logger.info("Received keyboard interrupt. Shutting down...")
         exit_event.set()
     except Exception as e:
-        print(f"\n[{datetime.now().isoformat()}] Error in main loop: {str(e)}")
+        logger.error(f"Error in main loop: {str(e)}")
         exit_event.set()
     finally:
         # Ensure we exit cleanly

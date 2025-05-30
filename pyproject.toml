@@ -1,3 +1,164 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "fedloadw"
+version = "1.0.0"
+description = "Monitor Federal Reserve websites for content changes and extract entities"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "FedLoad Team", email = "wkarshat@yahoo.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "requests>=2.25.0",
+    "beautifulsoup4>=4.9.0",
+    "spacy>=3.4.0",
+    "schedule>=1.1.0",
+    "uvicorn>=0.15.0",
+    "fastapi>=0.70.0",
+    "pytest>=6.0.0",
+    "pytest-cov>=2.10.0",
+    "html2text>=2020.1.16",
+    "trafilatura>=1.2.0",
+    "newspaper3k>=0.2.8",
+    "paramiko>=2.7.0",
+    "pydantic>=1.8.0",
+    "python-dateutil>=2.8.0",
+    "lxml>=4.6.0",
+    "nltk>=3.6.0",
+    "numpy>=1.20.0",
+    "hashlib-compat>=1.0.0; python_version<'3.9'"
+]
+
+[project.optional-dependencies]
+dev = [
+    "black>=21.0.0",
+    "flake8>=3.9.0",
+    "mypy>=0.910",
+    "bandit>=1.7.0",
+    "safety>=1.10.0"
+]
+test = [
+    "pytest>=6.0.0",
+    "pytest-cov>=2.10.0",
+    "pytest-asyncio>=0.15.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/wkarshat/fedloadw"
+Repository = "https://github.com/wkarshat/fedloadw"
+Documentation = "https://github.com/wkarshat/fedloadw/blob/main/README.md"
+"Bug Tracker" = "https://github.com/wkarshat/fedloadw/issues"
+
+[project.scripts]
+fedloadw = "scheduler:main"
+fedload-api = "main:main"
+
+[tool.setuptools]
+py-modules = [
+    "scheduler",
+    "main", 
+    "fetcher",
+    "hasher",
+    "diff",
+    "config_log",
+    "config_manager",
+    "fed_entity_recognizer"
+]
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "*.html"]
+
+[tool.black]
+line-length = 79
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.flake8]
+max-line-length = 79
+extend-ignore = ["E203", "W503"]
+exclude = [
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+    ".venv",
+    ".eggs"
+]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --cov=. --cov-report=term-missing --cov-report=html"
+testpaths = ["tests"]
+markers = [
+    "unit: marks tests as unit tests",
+    "integration: marks tests as integration tests", 
+    "system: marks tests as system tests",
+    "security: marks tests as security tests"
+]
+
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "tests/*",
+    ".venv/*",
+    "setup.py",
+    "*/__pycache__/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:"
+]
+
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]
+skips = ["B101", "B601"]
