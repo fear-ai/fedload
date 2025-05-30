@@ -18,6 +18,35 @@ logging.basicConfig(
 )
 logger = logging.getLogger("fetcher")
 
+# Define safe root directory for local file access
+SAFE_ROOT_DIR = os.path.abspath(os.path.join(os.getcwd(), "data"))
+
+def validate_file_path(path):
+    """Validate and normalize file path to prevent path traversal attacks.
+    
+    Args:
+        path (str): File path to validate
+        
+    Returns:
+        str: Validated and normalized path
+        
+    Raises:
+        ValueError: If path is outside safe root directory
+    """
+    # Normalize the path to resolve any .. sequences
+    normalized_path = os.path.normpath(os.path.abspath(path))
+    
+    # Ensure the normalized path is within the safe root directory
+    if not normalized_path.startswith(SAFE_ROOT_DIR):
+        logger.warning(
+            f"Path {path} is outside the safe root directory {SAFE_ROOT_DIR}"
+        )
+        raise ValueError(
+            f"Access to path '{path}' is not allowed - outside safe directory"
+        )
+    
+    return normalized_path
+
 def fetch_page(url):
     """Fetch content from a web page, local file, or FTP server.
     
@@ -37,13 +66,20 @@ def fetch_page(url):
         # 1. No scheme - try to determine if it's a local file or assume http
         if not scheme:
             logger.info(f"No scheme specified for {url}, attempting to determine source type")
-            if os.path.exists(url):
-                logger.info(f"URL {url} exists as a local file, treating as file")
-                return fetch_local_file(url)
-            else:
-                # Try to prepend http:// and fetch
-                logger.info(f"URL {url} doesn't exist locally, treating as http URL")
-                return fetch_http(f"http://{url}")
+            try:
+                # Validate and normalize the path for security
+                validated_path = validate_file_path(url)
+                if os.path.exists(validated_path):
+                    logger.info(f"URL {url} exists as a local file, treating as file")
+                    return fetch_local_file(validated_path)
+            except ValueError as e:
+                logger.warning(f"Invalid file path {url}: {str(e)}")
+            except Exception as e:
+                logger.debug(f"Error checking local file {url}: {str(e)}")
+            
+            # Try to prepend http:// and fetch
+            logger.info(f"URL {url} doesn't exist locally, treating as http URL")
+            return fetch_http(f"http://{url}")
         
         # 2. HTTP
         if scheme == "http":
@@ -63,7 +99,12 @@ def fetch_page(url):
         
         # 6. File
         if scheme == "file":
-            return fetch_local_file(parsed_url.path)
+            try:
+                validated_path = validate_file_path(parsed_url.path)
+                return fetch_local_file(validated_path)
+            except ValueError as e:
+                logger.warning(f"Invalid file path {parsed_url.path}: {str(e)}")
+                return None
         
         # If we get here, it's an unsupported protocol
         logger.warning(f"Unsupported protocol: {scheme}")
@@ -149,7 +190,7 @@ def fetch_http(url, verify=False):
         str: HTML content or None if failed
     """
     try:
-        response = requests.get(url, verify=verify)
+        response = requests.get(url, verify=verify, timeout=30)
         response.raise_for_status()
         logger.info(f"Successfully fetched HTTP URL: {url}")
         return response.text
