@@ -417,7 +417,7 @@ python -m pytest tests/ -v --cov=. --cov-report=html
 - **FIXES_SUMMARY.md**: Changelog of improvements
 - **DOCKER.md**: Container deployment guide
 - **GITHUB_ACTIONS.md**: CI/CD pipeline guide
-- **INSTRUCTIONS.md**: This file - development guidelines
+- **DEVELOP.md**: This file - development guidelines
 
 ### Documentation Best Practices
 - **Keep updated** with code changes
